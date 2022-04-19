@@ -1,4 +1,4 @@
-import { D_Currency, D_PortfolioPosition, D_Security } from "./robot.models"
+import { D_Currency, D_PortfolioPosition, D_Security } from "./robot.data-models"
 
 export type CheckAuthResponse = {
   status: 'Authorized' | 'Not Authorized'
