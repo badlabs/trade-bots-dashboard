@@ -7,27 +7,18 @@
   </div>
   <div class="q-pa-md q-my-lg q-mx-auto" style="max-width: 800px; background: lightblue; border-radius: 5px">
     <div style="text-align: center; font-size: 16px; font-weight: bold">Connected robots: Info</div>
-    <div class="q-pa-md">
-      <q-virtual-scroll
-        type="table"
-        style="max-height: 150px"
-        :virtual-scroll-item-size="48"
-        :virtual-scroll-sticky-size-start="48"
-        :virtual-scroll-sticky-size-end="32"
-        :items="heavyList">
-        <template v-slot="{ item: row, index }">
-          <tr :key="index">
+      <div class="connected-robots__items q-pa-md">
+          <tr v-for="(robot, index) in robots" :key="index">
             <td v-for="col in columns" :key="index + '-' + col">
-              {{ row[col] }}
+              {{ robot[col] }}
             </td>
           </tr>
-        </template>
-      </q-virtual-scroll>
-    </div>
+      </div>
     <div>
       <q-btn color="primary" href="#/robots" label="More" style="font-size: 12px"/>
     </div>
-  </div>
+    </div>
+
 
   <div class="q-px-md q-my-lg q-mx-auto" style="max-width: 800px; background: lightgray; border-radius: 5px">
     <div class="q-pa-md">
@@ -41,7 +32,7 @@
         :virtual-scroll-item-size="48"
         :virtual-scroll-sticky-size-start="48"
         :virtual-scroll-sticky-size-end="32"
-        :items="heavyList">
+        :items="robots">
         <q-item class="q-pa-md">
           <q-item-section>
             <q-item-label style="font-size: 18px; font-weight: bold">AAA</q-item-label>
@@ -142,7 +133,7 @@ export default {
   name: "MainScreen",
   data(){
     return{
-      heavyList,
+      robots: rows,
       list,
       columns
     }
@@ -151,5 +142,8 @@ export default {
 </script>
 
 <style scoped>
-
+  .connected-robots__items {
+    max-height: 150px;
+    overflow-y: auto;
+  }
 </style>
