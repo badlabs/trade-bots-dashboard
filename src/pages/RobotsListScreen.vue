@@ -9,10 +9,10 @@
         <ConnectRobotModal />
       </div>
     </div>
-    <q-card style="max-width: 600px" class="q-mx-auto">
+    <q-card v-for="(robot, index) in robotsStore.robots" :key="index" style="max-width: 600px" class="q-mx-auto">
       <q-card-section>
         <div class="row justify-between">
-          <div class="text-h6">Robot 123</div>
+          <div class="text-h6">{{robot.name}}</div>
           <q-chip dense dark color="blue">active</q-chip>
         </div>
 
@@ -36,14 +36,22 @@
   </div>
 </template>
 
-<script>
-import ConnectRobotModal from "components/ConnectRobotModal";
-export default {
+<script lang="ts">
+import ConnectRobotModal from "components/ConnectRobotModal.vue";
+import { defineComponent } from 'vue'
+import { useRobotsStore } from "stores/robots.store";
+
+export default defineComponent({
   name: "RobotsListScreen",
+  setup(){
+    return {
+      robotsStore: useRobotsStore()
+    }
+  },
   components: {
     ConnectRobotModal
   }
-}
+})
 </script>
 
 <style scoped>
