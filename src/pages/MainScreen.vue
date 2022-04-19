@@ -71,8 +71,11 @@
           <q-item-section class="q-pa-sm q-my-sm">
             <q-card class="my-card" style="max-height: 300px;">
               <q-card-section>
-                fffffff
+                Algorithm 1234
               </q-card-section>
+              <div class="q-pa-md">
+
+              </div>
             </q-card>
           </q-item-section>
         </q-item>
