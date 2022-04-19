@@ -1,39 +1,36 @@
 <template>
+  <!-- Nav Buttons -->
   <div class="q-pa-md">
     <div class="q-gutter-sm">
       <q-btn color="primary" href="#/robots" label="Robots"/>
       <q-btn color="primary" href="#/algorithms" label="Algorithms"/>
     </div>
   </div>
+
+  <!-- Connected Robots -->
   <div class="q-pa-md q-my-lg q-mx-auto" style="max-width: 800px; background: lightblue; border-radius: 5px">
     <div style="text-align: center; font-size: 16px; font-weight: bold">Connected robots: Info</div>
-      <div class="connected-robots__items q-pa-md">
-          <tr v-for="(robot, index) in robots" :key="index">
-            <td v-for="col in columns" :key="index + '-' + col">
-              {{ robot[col] }}
-            </td>
-          </tr>
-      </div>
+      <q-list separator class="connected-robots__items q-my-md">
+          <q-item v-for="(robot, index) in robots" :key="index">
+            <q-item-section>{{ robot.name }}</q-item-section>
+            <q-item-section>{{ robot.algorithm }}</q-item-section>
+            <q-item-section>{{ robot.status }}</q-item-section>
+          </q-item>
+      </q-list>
     <div>
       <q-btn color="primary" href="#/robots" label="More" style="font-size: 12px"/>
     </div>
-    </div>
+  </div>
 
-
+  <!-- Total Currencies -->
   <div class="q-px-md q-my-lg q-mx-auto" style="max-width: 800px; background: lightgray; border-radius: 5px">
     <div class="q-pa-md">
       <div class="q-pt-md" style="font-size: 16px; font-weight: bold">Total Currencies: $100</div>
       <div style="font-size: 14px">↑1,23 $ (1,23 %)</div>
     </div>
     <div class="q-pa-md">
-      <q-virtual-scroll
-        type="table"
-        style="max-height: 300px"
-        :virtual-scroll-item-size="48"
-        :virtual-scroll-sticky-size-start="48"
-        :virtual-scroll-sticky-size-end="32"
-        :items="robots">
-        <q-item class="q-pa-md">
+      <q-list separator style="max-height: 300px; overflow-y: auto">
+        <q-item v-for="(security, index) in securities" :key="index">
           <q-item-section>
             <q-item-label style="font-size: 18px; font-weight: bold">AAA</q-item-label>
             <q-item-label caption style="font-size: 14px">x5</q-item-label>
@@ -45,33 +42,30 @@
           </q-item-section>
 
         </q-item>
-      </q-virtual-scroll>
+      </q-list>
     </div>
   </div>
 
+  <!-- Algorithm -->
   <div class="q-pa-md q-my-lg q-mx-auto" style="max-width: 800px; background: lightblue; border-radius: 5px">
-    <q-virtual-scroll
-      style="max-height: 300px;"
-      :items="list"
-    >
-      <template v-slot="{ item, index }">
-        <q-item
-          :key="index"
-          dense
-        >
-          <q-item-section class="q-pa-sm q-my-sm">
-            <q-card class="my-card" style="max-height: 300px;">
-              <q-card-section>
-                Algorithm 1234
-              </q-card-section>
-              <div class="q-pa-md">
+    <q-list
+      style="max-height: 300px; overflow-y: auto"
+      separator>
+      <q-item
+        v-for="(algo, index) in algos" :key="index"
+        dense>
+        <q-item-section class="q-pa-sm q-my-sm">
+          <q-card class="my-card" style="max-height: 300px;">
+            <q-card-section>
+              Algorithm 1234
+            </q-card-section>
+            <div class="q-pa-md">
 
-              </div>
-            </q-card>
-          </q-item-section>
-        </q-item>
-      </template>
-    </q-virtual-scroll>
+            </div>
+          </q-card>
+        </q-item-section>
+      </q-item>
+    </q-list>
   </div>
 </template>
 
@@ -134,6 +128,8 @@ export default {
   data(){
     return{
       robots: rows,
+      algos: rows,
+      securities: rows,
       list,
       columns
     }
@@ -145,5 +141,9 @@ export default {
   .connected-robots__items {
     max-height: 150px;
     overflow-y: auto;
+    background-color: white;
+  }
+  .connected-robots__item {
+    border-bottom: 1px #212121 solid;
   }
 </style>
