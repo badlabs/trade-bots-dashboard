@@ -1,6 +1,8 @@
 <template>
-  <div>
-    Hello World!2
+  <div class="q-pa-md">
+    <div class="q-gutter-sm">
+      <q-btn color="primary" href="#/" label="< Main"/>
+    </div>
   </div>
 </template>
 
