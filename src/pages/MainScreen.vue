@@ -31,8 +31,8 @@
 
   <div class="q-px-md q-my-lg q-mx-auto" style="max-width: 800px; background: lightgray; border-radius: 5px">
     <div class="q-pa-md">
-      <div class="q-py-md" style="font-size: 14px; font-weight: bold">Total Currencies: $100</div>
-      <div style="font-size: 12px">↑1,23 $ (1,23 %)</div>
+      <div class="q-pt-md" style="font-size: 16px; font-weight: bold">Total Currencies: $100</div>
+      <div style="font-size: 14px">↑1,23 $ (1,23 %)</div>
     </div>
     <div class="q-pa-md">
       <q-virtual-scroll
@@ -42,13 +42,18 @@
         :virtual-scroll-sticky-size-start="48"
         :virtual-scroll-sticky-size-end="32"
         :items="heavyList">
-        <template v-slot="{ item: row, index }">
-          <tr :key="index">
-            <td v-for="col in columns" :key="index + '-' + col">
-              {{ row[col] }}
-            </td>
-          </tr>
-        </template>
+        <q-item class="q-pa-md">
+          <q-item-section>
+            <q-item-label style="font-size: 18px; font-weight: bold">AAA</q-item-label>
+            <q-item-label caption style="font-size: 14px">x5</q-item-label>
+          </q-item-section>
+
+          <q-item-section side top>
+            <q-item-label caption style="font-size: 16px; font-weight: bold">12,34 $</q-item-label>
+            <q-item-label caption style="font-size: 14px">↓1,23 $ (1,23 %)</q-item-label>
+          </q-item-section>
+
+        </q-item>
       </q-virtual-scroll>
     </div>
   </div>
