@@ -1,5 +1,6 @@
 import { store } from 'quasar/wrappers'
 import { createPinia } from 'pinia'
+import {useRobotsStore} from "stores/robots.store";
 
 /*
  * If not building with SSR mode, you can

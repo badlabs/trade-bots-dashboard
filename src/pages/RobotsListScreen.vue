@@ -6,7 +6,7 @@
     <div class="row justify-between">
       <h4>List of Robots</h4>
       <div>
-        <q-btn round color="primary" icon="add" />
+        <ConnectRobotModal />
       </div>
     </div>
     <q-card style="max-width: 600px" class="q-mx-auto">
@@ -37,8 +37,12 @@
 </template>
 
 <script>
+import ConnectRobotModal from "components/ConnectRobotModal";
 export default {
-  name: "RobotsListScreen"
+  name: "RobotsListScreen",
+  components: {
+    ConnectRobotModal
+  }
 }
 </script>
 
