@@ -63,11 +63,12 @@
           :key="index"
           dense
         >
-          <q-item-section class="q-pa-sm q-my-sm"
-                          style="background: lightgray; border-radius: 5px; border-color: #1D1D1D">
-            <q-item-label>
-              #{{ index }} - {{ item.label }}
-            </q-item-label>
+          <q-item-section class="q-pa-sm q-my-sm">
+            <q-card class="my-card" style="max-height: 300px;">
+              <q-card-section>
+                fffffff
+              </q-card-section>
+            </q-card>
           </q-item-section>
         </q-item>
       </template>
