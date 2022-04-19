@@ -5,9 +5,8 @@
       <q-btn color="primary" href="#/algorithms" label="Algorithms"/>
     </div>
   </div>
-  <div class="q-pa-md q-mx-auto" style="max-width: 800px; background: lightblue; border-radius: 5px">
+  <div class="q-pa-md q-my-lg q-mx-auto" style="max-width: 800px; background: lightblue; border-radius: 5px">
     <div style="text-align: center; font-size: 16px; font-weight: bold">Connected robots: Info</div>
-
     <div class="q-pa-md">
       <q-virtual-scroll
         type="table"
@@ -28,6 +27,51 @@
     <div>
       <q-btn color="primary" href="#/robots" label="More" style="font-size: 12px"/>
     </div>
+  </div>
+
+  <div class="q-px-md q-my-lg q-mx-auto" style="max-width: 800px; background: lightgray; border-radius: 5px">
+    <div class="q-pa-md">
+      <div class="q-py-md" style="font-size: 14px; font-weight: bold">Total Currencies: $100</div>
+      <div style="font-size: 12px">↑1,23 $ (1,23 %)</div>
+    </div>
+    <div class="q-pa-md">
+      <q-virtual-scroll
+        type="table"
+        style="max-height: 300px"
+        :virtual-scroll-item-size="48"
+        :virtual-scroll-sticky-size-start="48"
+        :virtual-scroll-sticky-size-end="32"
+        :items="heavyList">
+        <template v-slot="{ item: row, index }">
+          <tr :key="index">
+            <td v-for="col in columns" :key="index + '-' + col">
+              {{ row[col] }}
+            </td>
+          </tr>
+        </template>
+      </q-virtual-scroll>
+    </div>
+  </div>
+
+  <div class="q-pa-md q-my-lg q-mx-auto" style="max-width: 800px; background: lightblue; border-radius: 5px">
+    <q-virtual-scroll
+      style="max-height: 300px;"
+      :items="list"
+    >
+      <template v-slot="{ item, index }">
+        <q-item
+          :key="index"
+          dense
+        >
+          <q-item-section class="q-pa-sm q-my-sm"
+                          style="background: lightgray; border-radius: 5px; border-color: #1D1D1D">
+            <q-item-label>
+              #{{ index }} - {{ item.label }}
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+      </template>
+    </q-virtual-scroll>
   </div>
 </template>
 
@@ -75,11 +119,22 @@ for (let i = 0; i <= 50; i++) {
   Array.prototype.push.apply(heavyList, rows)
 }
 
+const maxSize = 100
+const list = []
+
+for (let i = 0; i < maxSize; i++) {
+  list.push({
+    label: 'Option ' + (i + 1)
+  })
+}
+
+
 export default {
   name: "MainScreen",
   data(){
     return{
       heavyList,
+      list,
       columns
     }
   }
