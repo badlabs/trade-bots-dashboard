@@ -16,9 +16,15 @@
           <q-chip dense dark color="blue">active</q-chip>
         </div>
 
+        {{robot.statistics.portfolio}}
+
         <div>
-          <q-item-label caption style="font-size: 16px; font-weight: bold">12,34 $</q-item-label>
-          <q-item-label caption style="font-size: 14px">↓1,23 $ (1,23 %)</q-item-label>
+          <q-item-label caption style="font-size: 16px; font-weight: bold">{{robot.statistics.portfolio.priceAll}} $</q-item-label>
+          <q-item-label caption
+                        :class="`text-${robot.statistics.portfolio.growth ? 'green' : 'red'}`"
+                        style="font-size: 14px">
+            ↓{{robot.statistics.portfolio.diffAbs}} $ ({{robot.statistics.portfolio.diffPer}} %)
+          </q-item-label>
         </div>
 
       </q-card-section>

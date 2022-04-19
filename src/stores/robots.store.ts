@@ -21,9 +21,13 @@ export const useRobotsStore = defineStore('robots', {
       }
 
     },
-    addRobot(robotOptions: RobotInitOptions){
-      if (!this.checkExistingRobot(robotOptions))
-        this.robots.push(new TradeBot(robotOptions))
+    async addRobot(robotOptions: RobotInitOptions){
+      if (!this.checkExistingRobot(robotOptions)) {
+        const newRobot = new TradeBot(robotOptions)
+        this.robots.push(newRobot)
+        await newRobot.state.getPortfolio()
+        await newRobot.state.getSecurities()
+      }
     },
     checkExistingRobot(robotOptions: RobotInitOptions){
       const testRobot = new TradeBot(robotOptions)
