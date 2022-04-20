@@ -32,7 +32,6 @@ export const useRobotStatisticsActions = defineStore('robotStatisticsActions', {
       const buyPriceAll = portfolio
         .reduce((summ, position) => {
           const security = securitiesStore.getSecurity(position.security_ticker)
-          console.log(position, security, securitiesStore.securities)
           if (!security) return summ
           return summ + (position.buy_price || security.price) * (position.amount || 0)
         }, 0)

@@ -5,6 +5,9 @@
     </div>
     <div class="row justify-between">
       <h4>Robot {{robot.name}}</h4>
+      <div>
+        <RobotLogsModal :robot="robot" />
+      </div>
     </div>
     <PortfolioStatistics :portfolio="portfolio" />
     <AlgosList :algorithms="algorithms" :robot="robot" />
@@ -18,12 +21,13 @@ import {useRobotActions} from "stores/robot.actions";
 import {mapActions, mapState} from "pinia";
 import {D_PortfolioPosition, GetAlgorithmsResponse, TradeBot} from "src/models";
 import PortfolioStatistics from "components/PortfolioStatistics.vue";
+import RobotLogsModal from "components/RobotLogsModal.vue";
 import AlgosList from "components/AlgosList.vue";
 
 export default defineComponent({
   name: "RobotScreen",
   components: {
-    PortfolioStatistics, AlgosList
+    PortfolioStatistics, AlgosList, RobotLogsModal
   },
   data() {
     return {
