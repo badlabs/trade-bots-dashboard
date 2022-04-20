@@ -56,18 +56,16 @@ export default defineComponent({
   },
   methods: {
     ...mapActions(useRobotStatisticsActions, ['getPortfolioStatistics']),
-    ...mapActions(useRobotActions, ['getPortfolio', 'getSecurities'])
+    ...mapActions(useRobotActions, ['updatePortfolio', 'updateSecurities'])
   },
   watch:{
     async robot(robot){
-      this.portfolio = await this.getPortfolio(robot)
-      console.log(this.portfolio)
+      this.portfolio = await this.updatePortfolio(robot)
     }
   },
   async created(){
-    await this.getSecurities(this.robot)
-    this.portfolio = await this.getPortfolio(this.robot)
-    console.log(this.portfolio)
+    await this.updateSecurities(this.robot)
+    this.portfolio = await this.updatePortfolio(this.robot)
   }
 })
 </script>
