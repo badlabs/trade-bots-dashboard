@@ -11,7 +11,7 @@
         <q-item-label caption
                       :class="`text-${portfolioStatistics.growth ? 'green' : 'red'}`"
                       style="font-size: 14px">
-          ↓{{portfolioStatistics.diffAbs}} $ ({{portfolioStatistics.diffPer}} %)
+          {{ portfolioStatistics.growth ? '↑' : '↓' }}{{portfolioStatistics.diffAbs}} $ ({{portfolioStatistics.diffPer}} %)
         </q-item-label>
       </div>
 
