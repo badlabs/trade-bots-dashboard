@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="q-pa-md">
-      <q-list separator style="max-height: 300px; overflow-y: auto">
+      <q-list separator style="max-height: 300px; overflow-y: auto" class="bg-white">
         <q-item v-for="(security, index) in portfolio" :key="index">
           <q-item-section>
             <q-item-label style="font-size: 18px; font-weight: bold">{{security.security_ticker}}</q-item-label>
