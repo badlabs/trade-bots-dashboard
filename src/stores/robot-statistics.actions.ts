@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
-import {D_PortfolioPosition, D_Security} from "src/models";
+import {D_PortfolioPosition, D_Security, TradeBot} from "src/models";
 import {useSecuritiesStore} from "stores/securities.store";
+import {useRobotsStore} from "stores/robots.store";
+import {useRobotActions} from "stores/robot.actions";
 
 
 export const useRobotStatisticsActions = defineStore('robotStatisticsActions', {
@@ -11,11 +13,28 @@ export const useRobotStatisticsActions = defineStore('robotStatisticsActions', {
 
   },
   actions: {
+    getPositionStatistics(position: D_PortfolioPosition){
+      const securitiesStore = useSecuritiesStore()
+      const security = securitiesStore.getSecurity(position.security_ticker)
+      if (!security) return
+      const buyPrice = position.amount * (position.buy_price || security.price)
+      const price = position.amount * security.price
+      const diffAbs = Math.abs(buyPrice - price)
+      const diffPer = diffAbs / buyPrice * 100
+      return {
+        buyPrice, price,
+        growth: price > buyPrice,
+        diffAbs, diffPer
+      }
+    },
     getPortfolioStatistics(portfolio: D_PortfolioPosition[]) {
       const securitiesStore = useSecuritiesStore()
       const buyPriceAll = portfolio
         .reduce((summ, position) => {
-          return summ + (position.buy_price || 0) * (position.amount || 0)
+          const security = securitiesStore.getSecurity(position.security_ticker)
+          console.log(position, security, securitiesStore.securities)
+          if (!security) return summ
+          return summ + (position.buy_price || security.price) * (position.amount || 0)
         }, 0)
       const priceAll = securitiesStore.securities
         .reduce((summ, security) => {
@@ -25,12 +44,37 @@ export const useRobotStatisticsActions = defineStore('robotStatisticsActions', {
           return summ
         }, 0)
       const diffAbs = Math.abs(buyPriceAll - priceAll)
-      const diffPer = diffAbs / buyPriceAll
+      const diffPer = diffAbs / buyPriceAll * 100
       return {
         buyPriceAll, priceAll,
         growth: priceAll > buyPriceAll,
         diffAbs,
         diffPer
+      }
+    },
+    async getUnitePortfolioStatistics(){
+      const securitiesStore = useSecuritiesStore()
+      const robotsStore = useRobotsStore()
+      const robotActions = useRobotActions()
+
+      const robots: TradeBot[] = robotsStore.robots
+      const allPortfoliosPromise: Promise<D_PortfolioPosition[]>[] = robots
+        .map(async (robot) => {
+          return await robotActions.getPortfolio(robot)
+        })
+      const allPortfolios: D_PortfolioPosition[][] = await Promise.all(allPortfoliosPromise)
+      const unitedPortfolio: D_PortfolioPosition[] = allPortfolios
+        .reduce(((united, current) => {
+          current.forEach(currentPosition => {
+            const existingPosition = united.find(p => p.security_ticker == currentPosition.security_ticker)
+            if (existingPosition) existingPosition.amount += currentPosition.amount
+            else united.push(currentPosition)
+          })
+          return united
+        }), [])
+      return {
+        unitedPortfolio,
+        unitedPortfolioStatistics: this.getPortfolioStatistics(unitedPortfolio)
       }
     }
   },

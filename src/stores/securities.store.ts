@@ -18,6 +18,9 @@ export const useSecuritiesStore = defineStore('securities', {
           this.securities.push(freshSecurity)
         }
       })
+    },
+    getSecurity(ticker: string){
+      return this.securities.find(s => s.ticker === ticker)
     }
   },
 });

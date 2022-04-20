@@ -31,20 +31,30 @@
   <!-- Total Currencies -->
   <div class="q-px-md q-my-lg q-mx-auto" style="max-width: 800px; background: lightgray; border-radius: 5px">
     <div class="q-pa-md">
-      <div class="q-pt-md" style="font-size: 16px; font-weight: bold">Total Currencies: $100</div>
-      <div style="font-size: 14px">↑1,23 $ (1,23 %)</div>
+      <div class="q-pt-md" style="font-size: 16px; font-weight: bold">
+        Total Currencies: ${{unitedPortfolioStatistics.unitedPortfolioStatistics.priceAll}}
+      </div>
+      <div style="font-size: 14px">
+        ↑{{ unitedPortfolioStatistics.unitedPortfolioStatistics.diffAbs }} $ ({{unitedPortfolioStatistics.unitedPortfolioStatistics.diffPer}} %)
+      </div>
     </div>
     <div class="q-pa-md">
       <q-list separator style="max-height: 300px; overflow-y: auto">
-        <q-item v-for="(security, index) in securities" :key="index">
+        <q-item v-for="(security, index) in unitedPortfolioStatistics.unitedPortfolio" :key="index">
           <q-item-section>
-            <q-item-label style="font-size: 18px; font-weight: bold">AAA</q-item-label>
-            <q-item-label caption style="font-size: 14px">x5</q-item-label>
+            <q-item-label style="font-size: 18px; font-weight: bold">{{security.security_ticker}}</q-item-label>
+            <q-item-label caption style="font-size: 14px">x{{security.amount}}</q-item-label>
           </q-item-section>
 
           <q-item-section side top>
-            <q-item-label caption style="font-size: 16px; font-weight: bold">12,34 $</q-item-label>
-            <q-item-label caption style="font-size: 14px">↓1,23 $ (1,23 %)</q-item-label>
+            <q-item-label caption style="font-size: 16px; font-weight: bold">
+              {{getPositionStatistics(security).price}} $
+            </q-item-label>
+            <q-item-label caption
+                          :class="`text-${getPositionStatistics(security).growth ? 'green' : 'red'}`"
+                          style="font-size: 14px">
+              {{getPositionStatistics(security).growth ? '↑' : '↓'}}{{getPositionStatistics(security).diffAbs}} $ ({{getPositionStatistics(security).diffPer}} %)
+            </q-item-label>
           </q-item-section>
 
         </q-item>
@@ -78,18 +88,35 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import {useRobotsStore} from "stores/robots.store";
-import {mapState} from "pinia";
+import {useRobotStatisticsActions} from "stores/robot-statistics.actions";
+import {mapState, mapActions} from "pinia";
+import {D_PortfolioPosition} from "src/models";
 
 export default defineComponent({
   name: "MainScreen",
   data(){
     return{
       algos: [1,2,3,4,5],
-      securities: [1,2,3,4,5]
+      securities: [1,2,3,4,5],
+      unitedPortfolioStatistics: {
+        unitedPortfolio: [] as D_PortfolioPosition[],
+        unitedPortfolioStatistics: {
+          buyPriceAll: 0, priceAll: 0,
+          growth: false,
+          diffAbs: 0,
+          diffPer: 0
+        }
+      }
     }
+  },
+  methods: {
+    ...mapActions(useRobotStatisticsActions, ['getUnitePortfolioStatistics', 'getPositionStatistics'])
   },
   computed: {
     ...mapState(useRobotsStore, ['robots'])
+  },
+  async created(){
+    this.unitedPortfolioStatistics = await this.getUnitePortfolioStatistics()
   }
 
 })
