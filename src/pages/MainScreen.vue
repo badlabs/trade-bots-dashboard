@@ -13,8 +13,14 @@
       <q-list separator class="connected-robots__items q-my-md">
           <q-item v-for="(robot, index) in robots" :key="index">
             <q-item-section>{{ robot.name }}</q-item-section>
-            <q-item-section>{{ robot.algorithm }}</q-item-section>
-            <q-item-section>{{ robot.status }}</q-item-section>
+            <q-item-section>{{ robot.algorithm || 'used algorithm' }}</q-item-section>
+            <q-item-section>
+              <div>
+                <q-chip color="primary" dense dark>
+                  {{ robot.status || 'active'}}
+                </q-chip>
+              </div>
+            </q-item-section>
           </q-item>
       </q-list>
     <div>
@@ -69,72 +75,24 @@
   </div>
 </template>
 
-<script>
-const rows = [
-  {
-    id: 1,
-    name: 'Robot 1234',
-    algorithm: 'algorithm in use',
-    status: 'active'
-  }, {
-    id: 2,
-    name: 'Robot 1235',
-    algorithm: 'algorithm in use',
-    status: 'active'
-  }, {
-    id: 3,
-    name: 'Robot 1235',
-    algorithm: 'algorithm in use',
-    status: 'active'
-  }, {
-    id: 4,
-    name: 'Robot 1236',
-    algorithm: 'algorithm in use',
-    status: 'active'
-  }, {
-    id: 5,
-    name: 'Robot 1237',
-    algorithm: 'algorithm in use',
-    status: 'active'
-  }
-]
+<script lang="ts">
+import {defineComponent} from "vue";
+import {useRobotsStore} from "stores/robots.store";
+import {mapState} from "pinia";
 
-const columns = [
-  'name',
-  'algorithm',
-  'status'
-]
-
-const heavyList = []
-
-// adding same data multiple times to
-// create a huge list
-for (let i = 0; i <= 50; i++) {
-  Array.prototype.push.apply(heavyList, rows)
-}
-
-const maxSize = 100
-const list = []
-
-for (let i = 0; i < maxSize; i++) {
-  list.push({
-    label: 'Option ' + (i + 1)
-  })
-}
-
-
-export default {
+export default defineComponent({
   name: "MainScreen",
   data(){
     return{
-      robots: rows,
-      algos: rows,
-      securities: rows,
-      list,
-      columns
+      algos: [1,2,3,4,5],
+      securities: [1,2,3,4,5]
     }
+  },
+  computed: {
+    ...mapState(useRobotsStore, ['robots'])
   }
-}
+
+})
 </script>
 
 <style scoped>
