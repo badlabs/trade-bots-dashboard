@@ -22,7 +22,7 @@
     </q-card-section>
 
     <q-card-actions align="right">
-      <q-btn color="blue" dark>
+      <q-btn color="blue" dark :to="`/robot/${robot.name}`">
         More
       </q-btn>
     </q-card-actions>
