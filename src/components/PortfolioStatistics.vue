@@ -4,8 +4,8 @@
       <div class="q-pt-md" style="font-size: 16px; font-weight: bold">
         Total Currencies: ${{statistics.priceAll}}
       </div>
-      <div style="font-size: 14px">
-        ↑{{ statistics.diffAbs }} $ ({{ statistics.diffPer }} %)
+      <div style="font-size: 14px" :class="`text-${statistics.growth ? 'green' : 'red'}`">
+        {{ statistics.growth ? '↑' : '↓' }}{{ statistics.diffAbs }} $ ({{ statistics.diffPer }} %)
       </div>
     </div>
     <div class="q-pa-md">
