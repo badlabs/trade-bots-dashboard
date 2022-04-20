@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { RobotInitOptions, TradeBot } from 'src/models';
 import axios from 'axios';
 import { CheckAuthResponse } from 'src/models/robot.responses';
+import {useRobotActions} from "stores/robot.actions";
 
 export const useRobotsStore = defineStore('robots', {
   state: () => ({
@@ -22,8 +23,11 @@ export const useRobotsStore = defineStore('robots', {
 
     },
     async addRobot(robotOptions: RobotInitOptions){
+      const robotActions = useRobotActions()
       if (!this.checkExistingRobot(robotOptions)) {
         const newRobot = new TradeBot(robotOptions)
+        await robotActions.updateSecurities(newRobot)
+        await robotActions.updatePortfolio(newRobot)
         this.robots.push(newRobot)
       }
     },

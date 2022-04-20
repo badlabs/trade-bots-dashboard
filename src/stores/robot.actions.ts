@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { useSecuritiesStore } from "stores/securities.store";
 import {
+  GetAlgorithmsResponse,
   GetPortfolioResponse,
   GetSecuritiesResponse,
   TradeBot, UpdatePortfolioResponse,
@@ -42,6 +43,12 @@ export const useRobotActions = defineStore('robotActions', {
       const { data: freshPortfolio }: { data: UpdatePortfolioResponse } =
         await axios.post(`${tradeBot.restUrl}/api/state/portfolio`,{}, { headers: tradeBot.authHeader })
       return freshPortfolio
+    },
+
+    async getAlgorithms(tradeBot: TradeBot): Promise<GetAlgorithmsResponse> {
+      const { data: algos }: { data: GetAlgorithmsResponse } =
+        await axios.get(`${tradeBot.restUrl}/api/algos`, { headers: tradeBot.authHeader })
+      return algos
     }
   },
 });

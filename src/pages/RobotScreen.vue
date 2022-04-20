@@ -1,12 +1,13 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-sm">
-      <q-btn color="primary" href="#/robots" label="< Robots"/>
+      <q-btn color="primary" to="/robots" label="< Robots"/>
     </div>
     <div class="row justify-between">
       <h4>Robot {{robot.name}}</h4>
     </div>
     <PortfolioStatistics :portfolio="portfolio" />
+    <AlgosList :algorithms="algorithms" :robot="robot" />
   </div>
 </template>
 
@@ -15,17 +16,19 @@ import {defineComponent} from "vue";
 import {useRobotsStore} from "stores/robots.store";
 import {useRobotActions} from "stores/robot.actions";
 import {mapActions, mapState} from "pinia";
-import {D_PortfolioPosition, TradeBot} from "src/models";
+import {D_PortfolioPosition, GetAlgorithmsResponse, TradeBot} from "src/models";
 import PortfolioStatistics from "components/PortfolioStatistics.vue";
+import AlgosList from "components/AlgosList.vue";
 
 export default defineComponent({
   name: "RobotScreen",
   components: {
-    PortfolioStatistics
+    PortfolioStatistics, AlgosList
   },
   data() {
     return {
-      portfolio: [] as D_PortfolioPosition[]
+      portfolio: [] as D_PortfolioPosition[],
+      algorithms: [] as GetAlgorithmsResponse
     }
   },
   computed: {
@@ -41,9 +44,10 @@ export default defineComponent({
     }
   },
   methods: {
-    ...mapActions(useRobotActions, ['getPortfolio']),
+    ...mapActions(useRobotActions, ['getPortfolio', 'getAlgorithms']),
     async updateRobotData(){
       this.portfolio = await this.getPortfolio(this.robot)
+      this.algorithms = await this.getAlgorithms(this.robot)
     }
   },
   watch: {

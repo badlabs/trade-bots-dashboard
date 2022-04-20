@@ -9,7 +9,7 @@
         <ConnectRobotModal />
       </div>
     </div>
-    <RobotTile v-for="(robot, index) in robotsStore.robots" :key="index" :robot="robot" />
+    <RobotTile v-for="(robot, index) in robotsStore.robots" :key="index" :robot="robot" class="q-my-sm" />
   </div>
 </template>
 
