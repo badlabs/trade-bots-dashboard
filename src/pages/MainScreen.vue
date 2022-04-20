@@ -29,38 +29,7 @@
   </div>
 
   <!-- Total Currencies -->
-  <div class="q-px-md q-my-lg q-mx-auto" style="max-width: 800px; background: lightgray; border-radius: 5px">
-    <div class="q-pa-md">
-      <div class="q-pt-md" style="font-size: 16px; font-weight: bold">
-        Total Currencies: ${{unitedPortfolioStatistics.unitedPortfolioStatistics.priceAll}}
-      </div>
-      <div style="font-size: 14px">
-        ↑{{ unitedPortfolioStatistics.unitedPortfolioStatistics.diffAbs }} $ ({{unitedPortfolioStatistics.unitedPortfolioStatistics.diffPer}} %)
-      </div>
-    </div>
-    <div class="q-pa-md">
-      <q-list separator style="max-height: 300px; overflow-y: auto">
-        <q-item v-for="(security, index) in unitedPortfolioStatistics.unitedPortfolio" :key="index">
-          <q-item-section>
-            <q-item-label style="font-size: 18px; font-weight: bold">{{security.security_ticker}}</q-item-label>
-            <q-item-label caption style="font-size: 14px">x{{security.amount}}</q-item-label>
-          </q-item-section>
-
-          <q-item-section side top>
-            <q-item-label caption style="font-size: 16px; font-weight: bold">
-              {{getPositionStatistics(security).price}} $
-            </q-item-label>
-            <q-item-label caption
-                          :class="`text-${getPositionStatistics(security).growth ? 'green' : 'red'}`"
-                          style="font-size: 14px">
-              {{getPositionStatistics(security).growth ? '↑' : '↓'}}{{getPositionStatistics(security).diffAbs}} $ ({{getPositionStatistics(security).diffPer}} %)
-            </q-item-label>
-          </q-item-section>
-
-        </q-item>
-      </q-list>
-    </div>
-  </div>
+  <PortfolioStatistics :portfolio="unitedPortfolioStatistics.unitedPortfolio"/>
 
   <!-- Algorithm -->
   <div class="q-pa-md q-my-lg q-mx-auto" style="max-width: 800px; background: lightblue; border-radius: 5px">
@@ -91,6 +60,7 @@ import {useRobotsStore} from "stores/robots.store";
 import {useRobotStatisticsActions} from "stores/robot-statistics.actions";
 import {mapState, mapActions} from "pinia";
 import {D_PortfolioPosition} from "src/models";
+import PortfolioStatistics from "components/PortfolioStatistics.vue";
 
 export default defineComponent({
   name: "MainScreen",
@@ -108,6 +78,9 @@ export default defineComponent({
         }
       }
     }
+  },
+  components: {
+    PortfolioStatistics
   },
   methods: {
     ...mapActions(useRobotStatisticsActions, ['getUnitePortfolioStatistics', 'getPositionStatistics'])
