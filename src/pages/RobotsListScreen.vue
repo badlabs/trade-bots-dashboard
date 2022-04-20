@@ -9,21 +9,21 @@
         <ConnectRobotModal />
       </div>
     </div>
-    <q-card v-for="(robot, index) in robotsStore.robots" :key="index" style="max-width: 600px" class="q-mx-auto">
+    <q-card v-for="(robotState, index) in localRobotsState" :key="index" style="max-width: 600px" class="q-mx-auto">
       <q-card-section>
         <div class="row justify-between">
-          <div class="text-h6">{{robot.name}}</div>
+          <div class="text-h6">{{robotState.robot.name}}</div>
           <q-chip dense dark color="blue">active</q-chip>
         </div>
 
-        {{robot.statistics.portfolio}}
+        {{getPortfolioStatistics(robotState.portfolio)}}
 
         <div>
-          <q-item-label caption style="font-size: 16px; font-weight: bold">{{robot.statistics.portfolio.priceAll}} $</q-item-label>
+          <q-item-label caption style="font-size: 16px; font-weight: bold">{{getPortfolioStatistics(robotState.portfolio).priceAll}} $</q-item-label>
           <q-item-label caption
-                        :class="`text-${robot.statistics.portfolio.growth ? 'green' : 'red'}`"
+                        :class="`text-${getPortfolioStatistics(robotState.portfolio).growth ? 'green' : 'red'}`"
                         style="font-size: 14px">
-            ↓{{robot.statistics.portfolio.diffAbs}} $ ({{robot.statistics.portfolio.diffPer}} %)
+            ↓{{getPortfolioStatistics(robotState.portfolio).diffAbs}} $ ({{getPortfolioStatistics(robotState.portfolio).diffPer}} %)
           </q-item-label>
         </div>
 
@@ -44,14 +44,51 @@
 
 <script lang="ts">
 import ConnectRobotModal from "components/ConnectRobotModal.vue";
-import { defineComponent } from 'vue'
+import {computed, defineComponent, Ref, ref, toRef, toRefs} from 'vue'
 import { useRobotsStore } from "stores/robots.store";
+import {D_PortfolioPosition, TradeBot} from "src/models";
+import {useSecuritiesStore} from "stores/securities.store";
+import {useRobotActions} from "stores/robot.actions";
+import { useRobotStatisticsActions } from "src/stores/robot-statistics.actions";
+
+type LocalRobotState = {
+  robot: TradeBot,
+  portfolio: Ref<D_PortfolioPosition[]>
+}
 
 export default defineComponent({
   name: "RobotsListScreen",
   setup(){
+    const robotsStore = useRobotsStore()
+    const robotsActions = useRobotActions()
+    const robotStatisticsActions = useRobotStatisticsActions()
+    const securitiesStore = useSecuritiesStore()
+
+    const localRobotsState = computed((): LocalRobotState[] => {
+      const robots = robotsStore.robots
+      return robots.map(robot => {
+        const portfolio: Ref<D_PortfolioPosition[]> = ref([])
+        robotsActions.getPortfolio(robot)
+          .then((freshPositions) => {
+            portfolio.value.push(...freshPositions)
+            console.log(portfolio.value)
+          })
+        return {
+          robot: robot,
+          portfolio: portfolio
+        }
+      })
+    })
+
+    function getPortfolioStatistics(portfolioRef: Ref<D_PortfolioPosition[]>) {
+      return robotStatisticsActions.portfolio(portfolioRef.value)
+    }
+
     return {
-      robotsStore: useRobotsStore()
+      robotsStore,
+      securitiesStore,
+      localRobotsState,
+      getPortfolioStatistics
     }
   },
   components: {

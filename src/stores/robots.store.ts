@@ -25,8 +25,6 @@ export const useRobotsStore = defineStore('robots', {
       if (!this.checkExistingRobot(robotOptions)) {
         const newRobot = new TradeBot(robotOptions)
         this.robots.push(newRobot)
-        await newRobot.state.getPortfolio()
-        await newRobot.state.getSecurities()
       }
     },
     checkExistingRobot(robotOptions: RobotInitOptions){
