@@ -32,5 +32,5 @@ jobs:
       if: github.ref == 'refs/heads/master'
       with:
         github_token: ${{ secrets.GH_PAGES_TOKEN }}
-        publish_dir: ./dist
+        publish_dir: ./dist/spa
         commit_message: 'Automatic deploy: ${{ github.event.head_commit.message }}'
