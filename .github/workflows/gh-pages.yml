@@ -23,7 +23,7 @@ jobs:
         node-version: 16
         cache: 'npm'
     - name: Install Node Packages
-      run: npm install
+      run: npm ci
     - name: Build App
       run: npm run build --if-present
 
