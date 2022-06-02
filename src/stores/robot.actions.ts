@@ -8,6 +8,7 @@ import {
   UpdateSecuritiesResponse
 } from 'src/models';
 import axios from 'axios';
+import {ICurrency, IPortfolioPosition, PortfolioPosition} from "@badlabs/trade-bot__db-types";
 
 export const useRobotActions = defineStore('robotActions', {
   state: () => ({
@@ -33,14 +34,14 @@ export const useRobotActions = defineStore('robotActions', {
       return freshSecurities
     },
 
-    async getPortfolio(tradeBot: TradeBot): Promise<GetPortfolioResponse> {
-      const { data: freshPortfolio }: { data: GetPortfolioResponse } =
+    async getPortfolio(tradeBot: TradeBot): Promise<PortfolioPosition[]> {
+      const { data: freshPortfolio }: { data: PortfolioPosition[] } =
         await axios.get(`${tradeBot.restUrl}/api/state/portfolio`, { headers: tradeBot.authHeader })
       return freshPortfolio
     },
 
-    async updatePortfolio(tradeBot: TradeBot): Promise<UpdatePortfolioResponse> {
-      const { data: freshPortfolio }: { data: UpdatePortfolioResponse } =
+    async updatePortfolio(tradeBot: TradeBot): Promise<PortfolioPosition[]> {
+      const { data: freshPortfolio }: { data: PortfolioPosition[] } =
         await axios.post(`${tradeBot.restUrl}/api/state/portfolio`,{}, { headers: tradeBot.authHeader })
       return freshPortfolio
     },
@@ -49,6 +50,18 @@ export const useRobotActions = defineStore('robotActions', {
       const { data: algos }: { data: GetAlgorithmsResponse } =
         await axios.get(`${tradeBot.restUrl}/api/algos`, { headers: tradeBot.authHeader })
       return algos
+    },
+
+    async getCurrencies(tradeBot: TradeBot): Promise<ICurrency[]> {
+      const { data: currencies }: { data: ICurrency[] } =
+        await axios.get(`${tradeBot.restUrl}/api/state/currencies`, { headers: tradeBot.authHeader })
+      return currencies
+    },
+
+    async updateCurrencies(tradeBot: TradeBot): Promise<ICurrency[]> {
+      const { data: currencies }: { data: ICurrency[] } =
+        await axios.post(`${tradeBot.restUrl}/api/state/currencies`, {}, { headers: tradeBot.authHeader })
+      return currencies
     }
   },
 });

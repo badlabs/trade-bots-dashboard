@@ -35,6 +35,7 @@ import {defineComponent, ref, Ref} from "vue";
 import {mapActions} from "pinia";
 import { useRobotActions } from "stores/robot.actions";
 import { useRobotStatisticsActions } from "src/stores/robot-statistics.actions";
+import { PortfolioPosition } from "@badlabs/trade-bot__db-types";
 
 export default defineComponent({
   name: "RobotTile",
@@ -46,7 +47,7 @@ export default defineComponent({
   },
   data() {
     return {
-      portfolio: [] as D_PortfolioPosition[]
+      portfolio: [] as PortfolioPosition[]
     }
   },
   computed: {

@@ -23,6 +23,7 @@ import {D_PortfolioPosition, GetAlgorithmsResponse, TradeBot} from "src/models";
 import PortfolioStatistics from "components/PortfolioStatistics.vue";
 import RobotLogsModal from "components/RobotLogsModal.vue";
 import AlgosList from "components/AlgosList.vue";
+import { PortfolioPosition } from "@badlabs/trade-bot__db-types";
 
 export default defineComponent({
   name: "RobotScreen",
@@ -31,7 +32,7 @@ export default defineComponent({
   },
   data() {
     return {
-      portfolio: [] as D_PortfolioPosition[],
+      portfolio: [] as PortfolioPosition[],
       algorithms: [] as GetAlgorithmsResponse
     }
   },

@@ -61,6 +61,7 @@ import {useRobotStatisticsActions} from "stores/robot-statistics.actions";
 import {mapState, mapActions} from "pinia";
 import {D_PortfolioPosition} from "src/models";
 import PortfolioStatistics from "components/PortfolioStatistics.vue";
+import { PortfolioPosition } from "@badlabs/trade-bot__db-types";
 
 export default defineComponent({
   name: "MainScreen",
@@ -69,7 +70,7 @@ export default defineComponent({
       algos: [1,2,3,4,5],
       securities: [1,2,3,4,5],
       unitedPortfolioStatistics: {
-        unitedPortfolio: [] as D_PortfolioPosition[],
+        unitedPortfolio: [] as PortfolioPosition[],
         unitedPortfolioStatistics: {
           buyPriceAll: 0, priceAll: 0,
           growth: false,
