@@ -27,6 +27,8 @@ import {defineComponent} from "vue";
 import {AlgoInput, AlgoInputType, OrderDetails, TradeBot} from "src/models";
 import { Algorithm } from "@badlabs/trade-bot__db-types";
 import OrderOptionsInput from "components/inputs/OrderOptionsInput.vue";
+import {mapActions} from "pinia";
+import {useAlgorithmsActions} from "stores/algorithms.actions";
 
 export default defineComponent({
   name: "RunAlgoModal",
@@ -51,37 +53,31 @@ export default defineComponent({
     }
   },
   methods: {
+    ...mapActions(useAlgorithmsActions, ["runAlgorithm", "getAlgorithmInputsTypes"]),
     async startAlgo(){
       this.loading = true
       const body: any = {}
       this.fields.forEach(f => {
         body[f.name] = f.value
       })
-      await this.$axios.post(`${this.robot.url}/api/algos/${this.algorithm.name}`, body, {headers: this.robot.authHeader})
+      await this.runAlgorithm(this.robot, this.algorithm.name, body)
       this.loading = false
       this.show = false
     }
   },
   created(){
-    this.fields = this.algorithm.inputs.map(i => {
+    const inputs = this.getAlgorithmInputsTypes(this.algorithm)
+    this.fields = Object.keys(inputs).map(input => {
+      let type = inputs[input]
       let value: number | OrderDetails = 0
-      switch (i.type) {
+      switch (type) {
         case "number":
           value = 0
           break
         case "OrderDetails":
-          value = {
-            lots: 0,
-            operation: 'limit_buy',
-            price: 0,
-            ticker: ''
-          }
+          value = { lots: 0, operation: 'limit_buy', price: 0, ticker: '' }
       }
-      return {
-        name: i.name,
-        type: i.type,
-        value
-      }
+      return { name: input, type, value }
     })
   }
 })

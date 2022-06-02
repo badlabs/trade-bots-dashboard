@@ -14,20 +14,14 @@ export const useRobotStatisticsActions = defineStore('robotStatisticsActions', {
 
   },
   actions: {
-    // getPositionStatistics(position: PortfolioPosition){
-    //   const securitiesStore = useSecuritiesStore()
-    //   const security = securitiesStore.getSecurity(position.security_ticker)
-    //   if (!security) return
-    //   const buyPrice = position.amount * (position.buy_price || security.price)
-    //   const price = position.amount * security.price
-    //   const diffAbs = Math.abs(buyPrice - price)
-    //   const diffPer = diffAbs / buyPrice * 100
-    //   return {
-    //     buyPrice, price,
-    //     growth: price > buyPrice,
-    //     diffAbs, diffPer
-    //   }
-    // },
+    getPositionStatistics(position: PortfolioPosition){
+      const securitiesStore = useSecuritiesStore()
+      return {
+        buyPrice: 0, price: 0,
+        growth: true,
+        diffAbs: 0, diffPer: 0
+      }
+    },
     getPortfolioStatistics(portfolio: PortfolioPosition[]) {
       const securitiesStore = useSecuritiesStore()
 

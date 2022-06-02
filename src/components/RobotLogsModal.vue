@@ -41,7 +41,7 @@ export default defineComponent({
 
     this.connection.on('log', (event) => {
       console.log(event)
-      this.logs += event.data + '\n'
+      this.logs += event + '\n'
     })
   },
   beforeDestroy() {

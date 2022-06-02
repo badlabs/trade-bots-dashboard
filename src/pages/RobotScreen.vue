@@ -24,6 +24,7 @@ import PortfolioStatistics from "components/PortfolioStatistics.vue";
 import RobotLogsModal from "components/RobotLogsModal.vue";
 import AlgosList from "components/AlgosList.vue";
 import {Algorithm, PortfolioPosition} from "@badlabs/trade-bot__db-types";
+import {useAlgorithmsActions} from "stores/algorithms.actions";
 
 export default defineComponent({
   name: "RobotScreen",
@@ -49,7 +50,8 @@ export default defineComponent({
     }
   },
   methods: {
-    ...mapActions(useRobotActions, ['getPortfolio', 'getAlgorithms']),
+    ...mapActions(useRobotActions, ['getPortfolio']),
+    ...mapActions(useAlgorithmsActions, ['getAlgorithms']),
     async updateRobotData(){
       this.portfolio = await this.getPortfolio(this.robot)
       this.algorithms = await this.getAlgorithms(this.robot)

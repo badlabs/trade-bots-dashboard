@@ -53,7 +53,7 @@ export default defineComponent({
     }
   },
   methods: {
-    ...mapActions(useRobotStatisticsActions, ['getPortfolioStatistics'])
+    ...mapActions(useRobotStatisticsActions, ['getPortfolioStatistics', 'getPositionStatistics'])
   }
 })
 </script>

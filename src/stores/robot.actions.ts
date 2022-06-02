@@ -45,12 +45,6 @@ export const useRobotActions = defineStore('robotActions', {
       return freshPortfolio
     },
 
-    async getAlgorithms(tradeBot: TradeBot): Promise<Algorithm[]> {
-      const { data: algos }: { data: Algorithm[] } =
-        await axios.get(`${tradeBot.url}/api/algos`, { headers: tradeBot.authHeader })
-      return algos
-    },
-
     async getCurrencies(tradeBot: TradeBot): Promise<Currency[]> {
       const { data: currencies }: { data: Currency[] } =
         await axios.get(`${tradeBot.url}/api/state/currencies`, { headers: tradeBot.authHeader })

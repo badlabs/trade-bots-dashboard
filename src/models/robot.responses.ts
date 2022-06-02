@@ -4,7 +4,6 @@ export type CheckAuthResponse = {
 }
 
 export type AlgoInput = {
-  name: string,
-  type: AlgoInputType
+  [key: string]: AlgoInputType
 }
 export type AlgoInputType = 'OrderDetails' | 'number'
