@@ -18,6 +18,7 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import {TradeBot} from "src/models";
+import {io, Socket} from "socket.io-client"
 
 export default defineComponent({
   name: "RobotLogsModal",
@@ -30,23 +31,18 @@ export default defineComponent({
   data(){
     return {
       show: false,
-      connection: null as WebSocket | null,
+      connection: null as Socket | null,
       logs: ''
     }
   },
   created(){
     const wsUrl = `${this.robot.url}`
-    this.connection = new WebSocket(wsUrl)
+    this.connection = io(wsUrl)
 
-    this.connection.onmessage = (event) => {
+    this.connection.on('log', (event) => {
       console.log(event)
       this.logs += event.data + '\n'
-    }
-
-    this.connection.onopen = function(event) {
-      console.log(event)
-      console.log("Successfully connected to the echo websocket server...")
-    }
+    })
   },
   beforeDestroy() {
     this.connection?.close()
