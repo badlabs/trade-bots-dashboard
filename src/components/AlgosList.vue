@@ -13,7 +13,7 @@
           <q-card class="my-card" style="max-height: 300px;">
             <q-card-section class="text-h5">Algorithm {{algo.name}}</q-card-section>
             <q-list separator class="bg-white">
-              <q-item v-for="input in algo.inputs" :key="input.name">
+              <q-item v-for="input in inputsForAlgorithm(algo)" :key="input.name">
                 <q-item-section>{{input.name}}</q-item-section>
                 <q-item-label>
                   <q-chip>
@@ -34,19 +34,25 @@
 
 <script lang="ts">
 import {defineComponent} from "vue";
-import {GetAlgorithmsResponse, TradeBot} from "src/models";
+import {AlgoInput, TradeBot} from "src/models";
 import RunAlgoModal from "components/RunAlgoModal.vue";
+import {Algorithm} from "@badlabs/trade-bot__db-types";
 
 export default defineComponent({
   name: "AlgosList",
   props: {
     algorithms: {
-      type: Array as () => GetAlgorithmsResponse,
+      type: Array as () => Algorithm[],
       required: true
     },
     robot: {
       type: TradeBot,
       required: true
+    }
+  },
+  methods: {
+    inputsForAlgorithm(algorithm: Algorithm): AlgoInput {
+      return JSON.parse(algorithm.input_types)
     }
   },
   components: {

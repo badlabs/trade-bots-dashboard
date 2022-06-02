@@ -15,7 +15,7 @@ export const useRobotsStore = defineStore('robots', {
     async checkRobotAuth(robotOptions: RobotInitOptions): Promise<boolean>{
       try {
         const testRobot = new TradeBot(robotOptions)
-        const {data: response}: { data: CheckAuthResponse } = await axios.get(`${testRobot.restUrl}/api/auth/check`, { headers: testRobot.authHeader })
+        const {data: response}: { data: CheckAuthResponse } = await axios.get(`${testRobot.url}/api/auth/check`, { headers: testRobot.authHeader })
         return response.auth
       } catch (e) {
         return false
@@ -33,7 +33,7 @@ export const useRobotsStore = defineStore('robots', {
     },
     checkExistingRobot(robotOptions: RobotInitOptions){
       const testRobot = new TradeBot(robotOptions)
-      return this.robots.some(robot => robot.restUrl === testRobot.restUrl || robot.wsUrl === testRobot.wsUrl)
+      return this.robots.some(robot => robot.url === testRobot.url)
     }
   },
 });

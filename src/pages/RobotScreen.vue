@@ -19,11 +19,11 @@ import {defineComponent} from "vue";
 import {useRobotsStore} from "stores/robots.store";
 import {useRobotActions} from "stores/robot.actions";
 import {mapActions, mapState} from "pinia";
-import {D_PortfolioPosition, GetAlgorithmsResponse, TradeBot} from "src/models";
+import {TradeBot} from "src/models";
 import PortfolioStatistics from "components/PortfolioStatistics.vue";
 import RobotLogsModal from "components/RobotLogsModal.vue";
 import AlgosList from "components/AlgosList.vue";
-import { PortfolioPosition } from "@badlabs/trade-bot__db-types";
+import {Algorithm, PortfolioPosition} from "@badlabs/trade-bot__db-types";
 
 export default defineComponent({
   name: "RobotScreen",
@@ -33,7 +33,7 @@ export default defineComponent({
   data() {
     return {
       portfolio: [] as PortfolioPosition[],
-      algorithms: [] as GetAlgorithmsResponse
+      algorithms: [] as Algorithm[]
     }
   },
   computed: {
@@ -43,7 +43,7 @@ export default defineComponent({
       const robot = this.robots.find((r: TradeBot) => r.name === this.$route.params.robot)
       if (!robot) {
         this.$router.push('/')
-        return new TradeBot({name: '', host: '', restPort: 0, wsPort: 0, token: ''})
+        return new TradeBot({name: '', host: '', port: 0, token: ''})
       }
       return robot
     }

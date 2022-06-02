@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import {D_PortfolioPosition, TradeBot} from "src/models";
+import {TradeBot} from "src/models";
 import {defineComponent, ref, Ref} from "vue";
 import {mapActions} from "pinia";
 import { useRobotActions } from "stores/robot.actions";

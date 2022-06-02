@@ -35,15 +35,15 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { D_PortfolioPosition } from "src/models";
 import { useRobotStatisticsActions } from "stores/robot-statistics.actions";
 import { mapActions } from "pinia";
+import { PortfolioPosition } from "@badlabs/trade-bot__db-types";
 
 export default defineComponent({
   name: "PortfolioStatistics",
   props: {
     portfolio: {
-      type: Array as () => D_PortfolioPosition[],
+      type: Array as () => PortfolioPosition[],
       required: true,
     }
   },
@@ -53,7 +53,7 @@ export default defineComponent({
     }
   },
   methods: {
-    ...mapActions(useRobotStatisticsActions, ['getPortfolioStatistics', 'getPositionStatistics'])
+    ...mapActions(useRobotStatisticsActions, ['getPortfolioStatistics'])
   }
 })
 </script>

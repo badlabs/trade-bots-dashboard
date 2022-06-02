@@ -59,7 +59,6 @@ import {defineComponent} from "vue";
 import {useRobotsStore} from "stores/robots.store";
 import {useRobotStatisticsActions} from "stores/robot-statistics.actions";
 import {mapState, mapActions} from "pinia";
-import {D_PortfolioPosition} from "src/models";
 import PortfolioStatistics from "components/PortfolioStatistics.vue";
 import { PortfolioPosition } from "@badlabs/trade-bot__db-types";
 
@@ -84,7 +83,7 @@ export default defineComponent({
     PortfolioStatistics
   },
   methods: {
-    ...mapActions(useRobotStatisticsActions, ['getUnitePortfolioStatistics', 'getPositionStatistics'])
+    ...mapActions(useRobotStatisticsActions, ['getUnitePortfolioStatistics'])
   },
   computed: {
     ...mapState(useRobotsStore, ['robots'])

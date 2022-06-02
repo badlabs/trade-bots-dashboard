@@ -35,7 +35,7 @@ export default defineComponent({
     }
   },
   created(){
-    const wsUrl = `${this.robot.wsUrl}`
+    const wsUrl = `${this.robot.url}`
     this.connection = new WebSocket(wsUrl)
 
     this.connection.onmessage = (event) => {

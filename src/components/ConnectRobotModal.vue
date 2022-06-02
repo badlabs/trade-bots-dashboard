@@ -5,8 +5,7 @@
         <q-card-section>
           <q-input v-model="robotOptions.name" label="Name*" />
           <q-input v-model="robotOptions.host" label="Host*" />
-          <q-input v-model="robotOptions.restPort" type="number" label="REST Port*" />
-          <q-input v-model="robotOptions.wsPort" type="number" label="WS Port*" />
+          <q-input v-model="robotOptions.port" type="number" label="Port*" />
           <q-input v-model="robotOptions.token" label="Token" />
         </q-card-section>
         <q-card-actions align="right">
@@ -45,8 +44,7 @@ export default defineComponent({
         name: '',
         host: 'localhost',
         token: '',
-        restPort: 4268,
-        wsPort: 4269
+        port: 4268
       } as RobotInitOptions
     }
   },
@@ -63,8 +61,7 @@ export default defineComponent({
         name: '',
         host: 'localhost',
         token: '',
-        restPort: 4268,
-        wsPort: 4269
+        port: 4268
       }
       this.checkStatus = null
       this.show = false

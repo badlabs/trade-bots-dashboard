@@ -1,5 +1,5 @@
 <template>
-  <router-view />
+  <slot />
 </template>
 
 <script lang="ts">

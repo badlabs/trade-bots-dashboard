@@ -24,7 +24,8 @@
 
 <script lang="ts">
 import {defineComponent} from "vue";
-import {AlgoInput, AlgoInputType, Algorithm, OrderDetails, TradeBot} from "src/models";
+import {AlgoInput, AlgoInputType, OrderDetails, TradeBot} from "src/models";
+import { Algorithm } from "@badlabs/trade-bot__db-types";
 import OrderOptionsInput from "components/inputs/OrderOptionsInput.vue";
 
 export default defineComponent({
@@ -56,7 +57,7 @@ export default defineComponent({
       this.fields.forEach(f => {
         body[f.name] = f.value
       })
-      await this.$axios.post(`${this.robot.restUrl}/api/algos/${this.algorithm.name}`, body, {headers: this.robot.authHeader})
+      await this.$axios.post(`${this.robot.url}/api/algos/${this.algorithm.name}`, body, {headers: this.robot.authHeader})
       this.loading = false
       this.show = false
     }
@@ -71,7 +72,7 @@ export default defineComponent({
         case "OrderDetails":
           value = {
             lots: 0,
-            operation: 'buy',
+            operation: 'limit_buy',
             price: 0,
             ticker: ''
           }

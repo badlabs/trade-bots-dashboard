@@ -1,4 +1,3 @@
-export * from './robot.data-models'
 export * from './robot.model'
 export * from './robot.responses'
 
@@ -9,5 +8,5 @@ export type OrderDetails = {
   price: number
 }
 
-export type OperationType = 'buy' | 'sell' | 'buy_or_cancel' | 'sell_or_cancel'
+export type OperationType = 'limit_buy' | 'market_buy' | 'limit_sell' | 'market_sell' | 'buy_or_cancel' | 'sell_or_cancel'
 

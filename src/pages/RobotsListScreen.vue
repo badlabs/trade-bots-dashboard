@@ -17,7 +17,7 @@
 import ConnectRobotModal from "components/ConnectRobotModal.vue";
 import {defineComponent} from 'vue'
 import { useRobotsStore } from "stores/robots.store";
-import {D_PortfolioPosition, TradeBot} from "src/models";
+import {TradeBot} from "src/models";
 import RobotTile from "components/robotsList/RobotTile.vue";
 
 export default defineComponent({
