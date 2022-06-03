@@ -1,18 +1,18 @@
 <template>
   <q-item>
     <q-item-section>
-      <q-item-label style="font-size: 18px; font-weight: bold">{{portfolioPosition.security_ticker}}</q-item-label>
-      <q-item-label caption style="font-size: 14px">x{{portfolioPosition.amount}}</q-item-label>
+      <q-item-label style="font-size: 18px; font-weight: bold">{{security.name}}</q-item-label>
+      <q-item-label caption style="font-size: 14px">{{portfolioPosition.security_ticker}} x{{portfolioPosition.amount}}</q-item-label>
     </q-item-section>
 
     <q-item-section side top>
       <q-item-label caption style="font-size: 16px; font-weight: bold">
-        {{security.price}} <Currency :ticker="security.currency_ticker" />
+        {{security.price}} <CurrencySign :ticker="security.currency_ticker" />
       </q-item-label>
       <q-item-label caption v-if="!!robot"
                     :class="`text-${growth ? 'green' : 'red'}`"
                     style="font-size: 14px">
-        {{growth ? '↑' : '↓'}}{{diffAbsolute}} <Currency :ticker="security.currency_ticker" /> ({{diffRelative}} %)
+        {{growth ? '↑' : '↓'}}{{buyPrice.price}} <CurrencySign :ticker="security.currency_ticker" /> ({{diffRelative}} %)
       </q-item-label>
     </q-item-section>
   </q-item>
@@ -25,11 +25,11 @@ import {TradeBot} from "src/models";
 import {mapActions, mapState} from "pinia";
 import {usePortfolioActions} from "stores/portfolio.actions";
 import {useSecuritiesStore} from "stores/securities.store";
-import Currency from "components/Currency.vue";
+import CurrencySign from "components/CurrencySign.vue";
 
 export default defineComponent({
   name: "PortfolioItem",
-  components: {Currency},
+  components: {CurrencySign},
   props: {
     portfolioPosition: {
       type: Object as () => PortfolioPosition,
@@ -61,7 +61,7 @@ export default defineComponent({
       return Math.round(result * 100) / 100
     },
     diffRelative(){
-      let result = this.diffAbsolute / this.buyPrice.price
+      let result = this.diffAbsolute / this.buyPrice.price * 100
       return Math.round(result * 100) / 100
     }
   },
