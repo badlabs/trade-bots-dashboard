@@ -2,8 +2,8 @@
   <!-- Nav Buttons -->
   <div class="q-pa-md">
     <div class="q-gutter-sm">
-      <q-btn color="primary" href="#/robots" label="Robots"/>
-      <q-btn color="primary" href="#/algorithms" label="Algorithms"/>
+      <q-btn color="primary" to="/robots" label="Robots"/>
+      <q-btn color="primary" to="/algorithms" label="Algorithms"/>
     </div>
   </div>
 

@@ -18,7 +18,7 @@
     </q-card-section>
 
     <q-card-section>
-      For logs
+      <RobotLogs class="text-" single-line :robot="robot" />
     </q-card-section>
 
     <q-card-actions align="right">
@@ -37,10 +37,11 @@ import { useRobotActions } from "stores/robot.actions";
 import { usePortfolioActions } from "stores/portfolio.actions";
 import { PortfolioPosition } from "@badlabs/trade-bot__db-types";
 import RobotAvatar from "components/RobotAvatar.vue";
+import RobotLogs from "components/RobotLogs.vue";
 
 export default defineComponent({
   name: "RobotTile",
-  components: {RobotAvatar},
+  components: {RobotLogs, RobotAvatar},
   props: {
     robot: {
       type: TradeBot,
