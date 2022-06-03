@@ -1,13 +1,24 @@
 <template>
-  <q-dialog v-model="show" persistent>
-    <q-card style="min-width: 400px">
-      <q-card-section>
+  <q-dialog v-model="show" persistent
+            :maximized="maximizedToggle"
+            transition-show="slide-up"
+            transition-hide="slide-down" >
+    <q-card style="min-width: 400px" class="bg-black text-white">
+      <q-bar class="bg-primary">
         Logs {{robot.name}}
-      </q-card-section>
+        <q-space />
+
+        <q-btn dense flat icon="minimize" @click="maximizedToggle = false" :disable="!maximizedToggle">
+          <q-tooltip v-if="maximizedToggle" class="bg-white text-primary">Minimize</q-tooltip>
+        </q-btn>
+        <q-btn dense flat icon="crop_square" @click="maximizedToggle = true" :disable="maximizedToggle">
+          <q-tooltip v-if="!maximizedToggle" class="bg-white text-primary">Maximize</q-tooltip>
+        </q-btn>
+        <q-btn dense flat icon="close" v-close-popup>
+          <q-tooltip class="bg-white text-primary">Close</q-tooltip>
+        </q-btn>
+      </q-bar>
       <RobotLogs style="max-width: 600px; max-height: 400px;" :robot="robot" />
-      <q-card-actions align="right">
-        <q-btn color="red" @click="show = !show" >Close</q-btn>
-      </q-card-actions>
     </q-card>
   </q-dialog>
   <q-btn @click="show = !show" color="primary" >Logs</q-btn>
@@ -30,7 +41,8 @@ export default defineComponent({
   },
   data(){
     return {
-      show: false
+      show: false,
+      maximizedToggle: true
     }
   }
 })
