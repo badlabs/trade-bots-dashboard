@@ -15,6 +15,9 @@
                        :portfolio-position="position" :robot="robot" />
       </q-list>
     </q-card-section>
+    <q-inner-loading :showing="loading">
+      <q-spinner-gears size="50px" color="primary"/>
+    </q-inner-loading>
   </div>
 </template>
 
@@ -31,23 +34,32 @@ export default defineComponent({
   name: "PortfolioView",
   components: {CurrencySign, PortfolioItem},
   props: {
-    portfolio: {
-      type: Array as () => PortfolioPosition[],
-      required: true,
-    },
-    balance: {
-      type: Array as () => CurrencyBalance[],
-      required: false,
-    },
     robot: {
       type: Object as () => TradeBot,
       required: false
     }
   },
-  computed: {
+  data(){
+    return {
+      portfolio: [] as PortfolioPosition[],
+      balance: [] as CurrencyBalance[],
+      loading: false
+    }
   },
   methods: {
-    ...mapActions(usePortfolioActions, [ 'getAverageBuyPrice'])
+    ...mapActions(usePortfolioActions, [ 'getAverageBuyPrice', "getUnitedPortfolio", "getUnitedBalance", "getPortfolio", "getCurrenciesBalance"])
+  },
+  async mounted(){
+    this.loading = true
+    if (!this.robot) {
+      this.portfolio = await this.getUnitedPortfolio()
+      this.balance = await this.getUnitedBalance()
+    }
+    else {
+      this.portfolio = await this.getPortfolio(this.robot)
+      this.balance = await this.getCurrenciesBalance(this.robot)
+    }
+    this.loading = false
   }
 })
 </script>

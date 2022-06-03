@@ -33,7 +33,7 @@
   </div>
 
   <!-- Total Currencies -->
-  <PortfolioView :portfolio="unitedPortfolio" :balance="unitedBalance" >
+  <PortfolioView >
     United Portfolio
   </PortfolioView>
 
@@ -84,15 +84,10 @@ export default defineComponent({
     PortfolioView
   },
   methods: {
-    ...mapActions(usePortfolioActions, ["getUnitedPortfolio", "getUnitedBalance"])
   },
   computed: {
     ...mapState(useRobotsStore, ['robots'])
   },
-  async created(){
-    this.unitedPortfolio = await this.getUnitedPortfolio()
-    this.unitedBalance = await this.getUnitedBalance()
-  }
 
 })
 </script>

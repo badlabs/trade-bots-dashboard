@@ -15,6 +15,9 @@
         {{growth ? '↑' : '↓'}}{{buyPrice.price}} <CurrencySign :ticker="security.currency_ticker" /> ({{diffRelative}} %)
       </q-item-label>
     </q-item-section>
+    <q-inner-loading :showing="loading">
+      <q-spinner-gears/>
+    </q-inner-loading>
   </q-item>
 </template>
 

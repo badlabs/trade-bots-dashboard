@@ -9,7 +9,7 @@
         <RobotLogsModal :robot="robot" />
       </div>
     </div>
-    <PortfolioStatistics :robot="robot" :portfolio="portfolio" :balance="currenciesBalance" />
+    <PortfolioStatistics :robot="robot" />
     <AlgosList :algorithms="algorithms" :robot="robot" />
   </div>
 </template>
@@ -52,11 +52,8 @@ export default defineComponent({
     }
   },
   methods: {
-    ...mapActions(usePortfolioActions, ['getPortfolio', "getCurrenciesBalance"]),
     ...mapActions(useAlgorithmsActions, ['getAlgorithms']),
     async updateRobotData(){
-      this.currenciesBalance = await this.getCurrenciesBalance(this.robot)
-      this.portfolio = await this.getPortfolio(this.robot)
       this.algorithms = await this.getAlgorithms(this.robot)
     }
   },
