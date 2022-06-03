@@ -56,7 +56,8 @@ export default defineComponent({
       this.loading = false
     },
     connectRobot(){
-      this.store.addRobot(this.robotOptions)
+      this.$emit('addRobot')
+      this.store.addRobot(this.robotOptions).finally(() => this.$emit('robotAdded'))
       this.robotOptions = {
         name: '',
         host: 'localhost',
