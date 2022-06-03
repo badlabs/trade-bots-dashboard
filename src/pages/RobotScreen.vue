@@ -10,7 +10,7 @@
       </div>
     </div>
     <PortfolioStatistics :robot="robot" />
-    <AlgosList :algorithms="algorithms" :robot="robot" />
+    <AlgosList :robot="robot" />
   </div>
 </template>
 
@@ -34,9 +34,7 @@ export default defineComponent({
   },
   data() {
     return {
-      currenciesBalance: [] as CurrencyBalance[],
-      portfolio: [] as PortfolioPosition[],
-      algorithms: [] as Algorithm[]
+
     }
   },
   computed: {
@@ -54,7 +52,6 @@ export default defineComponent({
   methods: {
     ...mapActions(useAlgorithmsActions, ['getAlgorithms']),
     async updateRobotData(){
-      this.algorithms = await this.getAlgorithms(this.robot)
     }
   },
   watch: {

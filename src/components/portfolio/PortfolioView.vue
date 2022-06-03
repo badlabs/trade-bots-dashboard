@@ -16,7 +16,7 @@
       </q-list>
     </q-card-section>
     <q-inner-loading :showing="loading">
-      <q-spinner-gears size="50px" color="primary"/>
+      <q-spinner-ball size="50px" color="primary"/>
     </q-inner-loading>
   </div>
 </template>

@@ -16,7 +16,7 @@
       </q-item-label>
     </q-item-section>
     <q-inner-loading :showing="loading">
-      <q-spinner-gears/>
+      <q-spinner-facebook/>
     </q-inner-loading>
   </q-item>
 </template>
