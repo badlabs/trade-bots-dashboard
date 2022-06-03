@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import {useSecuritiesStore} from "stores/securities.store";
 import {useRobotsStore} from "stores/robots.store";
 import {useRobotActions} from "stores/robot.actions";
-import {IPortfolioPosition, PortfolioPosition} from "@badlabs/trade-bot__db-types";
+import {CurrencyBalance, IPortfolioPosition, PortfolioPosition} from "@badlabs/trade-bot__db-types";
 import {TradeBot} from "src/models";
 import axios from "axios";
 
@@ -19,6 +19,12 @@ export const usePortfolioActions = defineStore('portfolioActions', {
       const { data: freshPortfolio }: { data: PortfolioPosition[] } =
         await axios.get(`${tradeBot.url}/api/state/portfolio`, { headers: tradeBot.authHeader })
       return freshPortfolio
+    },
+
+    async getCurrenciesBalance(tradeBot: TradeBot): Promise<CurrencyBalance[]> {
+      const { data: freshBalance }: { data: CurrencyBalance[] } =
+        await axios.get(`${tradeBot.url}/api/state/currencies/balance`, { headers: tradeBot.authHeader })
+      return freshBalance
     },
 
     async updatePortfolio(tradeBot: TradeBot): Promise<PortfolioPosition[]> {
@@ -67,10 +73,8 @@ export const usePortfolioActions = defineStore('portfolioActions', {
     //     unitedPortfolioStatistics: this.getPortfolioStatistics(unitedPortfolio)
     //   }
     // },
-    async getUnitedPortfolio(){
-      const securitiesStore = useSecuritiesStore()
+    async getUnitedPortfolio(): Promise<PortfolioPosition[]>{
       const robotsStore = useRobotsStore()
-      const robotActions = useRobotActions()
       const robots: TradeBot[] = robotsStore.robots
       const allPortfoliosPromise: Promise<PortfolioPosition[]>[] = robots
         .map(async (robot) => {
@@ -87,6 +91,25 @@ export const usePortfolioActions = defineStore('portfolioActions', {
           return united
         }), [])
       return unitedPortfolio
+    },
+    async getUnitedBalance(): Promise<CurrencyBalance[]>{
+      const robotsStore = useRobotsStore()
+      const robots: TradeBot[] = robotsStore.robots
+      const allBalancesPromise: Promise<CurrencyBalance[]>[] = robots
+        .map(async (robot) => {
+          return await this.getCurrenciesBalance(robot)
+        })
+      const allBalances: CurrencyBalance[][] = await Promise.all(allBalancesPromise)
+      const unitedBalances: CurrencyBalance[] = allBalances
+        .reduce(((united, current) => {
+          current.forEach(currentBalance => {
+            const existingPosition = united.find(p => p.currency_ticker == currentBalance.currency_ticker)
+            if (existingPosition) existingPosition.balance += currentBalance.balance
+            else united.push(currentBalance)
+          })
+          return united
+        }), [])
+      return unitedBalances
     }
   },
 });

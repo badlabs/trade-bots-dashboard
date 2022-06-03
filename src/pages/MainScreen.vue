@@ -29,7 +29,9 @@
   </div>
 
   <!-- Total Currencies -->
-  <PortfolioView :portfolio="unitedPortfolio"/>
+  <PortfolioView :portfolio="unitedPortfolio" :balance="unitedBalance" >
+    United Portfolio
+  </PortfolioView>
 
   <!-- Algorithm -->
   <div class="q-pa-md q-my-lg q-mx-auto" style="max-width: 800px; background: lightblue; border-radius: 5px">
@@ -60,7 +62,7 @@ import {useRobotsStore} from "stores/robots.store";
 import {usePortfolioActions} from "stores/portfolio.actions";
 import {mapState, mapActions} from "pinia";
 import PortfolioView from "components/portfolio/PortfolioView.vue";
-import { PortfolioPosition } from "@badlabs/trade-bot__db-types";
+import {CurrencyBalance, PortfolioPosition} from "@badlabs/trade-bot__db-types";
 
 export default defineComponent({
   name: "MainScreen",
@@ -68,20 +70,22 @@ export default defineComponent({
     return{
       algos: [1,2,3,4,5],
       securities: [1,2,3,4,5],
-      unitedPortfolio: [] as PortfolioPosition[]
+      unitedPortfolio: [] as PortfolioPosition[],
+      unitedBalance: [] as CurrencyBalance[]
     }
   },
   components: {
     PortfolioView
   },
   methods: {
-    ...mapActions(usePortfolioActions, ["getUnitedPortfolio"])
+    ...mapActions(usePortfolioActions, ["getUnitedPortfolio", "getUnitedBalance"])
   },
   computed: {
     ...mapState(useRobotsStore, ['robots'])
   },
   async created(){
     this.unitedPortfolio = await this.getUnitedPortfolio()
+    this.unitedBalance = await this.getUnitedBalance()
   }
 
 })

@@ -9,7 +9,7 @@
         <RobotLogsModal :robot="robot" />
       </div>
     </div>
-    <PortfolioStatistics :robot="robot" :portfolio="portfolio" />
+    <PortfolioStatistics :robot="robot" :portfolio="portfolio" :balance="currenciesBalance" />
     <AlgosList :algorithms="algorithms" :robot="robot" />
   </div>
 </template>
@@ -23,7 +23,7 @@ import {TradeBot} from "src/models";
 import PortfolioStatistics from "components/portfolio/PortfolioView.vue";
 import RobotLogsModal from "components/RobotLogsModal.vue";
 import AlgosList from "components/algorithms/AlgosList.vue";
-import {Algorithm, PortfolioPosition} from "@badlabs/trade-bot__db-types";
+import {Algorithm, CurrencyBalance, PortfolioPosition} from "@badlabs/trade-bot__db-types";
 import {useAlgorithmsActions} from "stores/algorithms.actions";
 import {usePortfolioActions} from "stores/portfolio.actions";
 
@@ -34,6 +34,7 @@ export default defineComponent({
   },
   data() {
     return {
+      currenciesBalance: [] as CurrencyBalance[],
       portfolio: [] as PortfolioPosition[],
       algorithms: [] as Algorithm[]
     }
@@ -51,9 +52,10 @@ export default defineComponent({
     }
   },
   methods: {
-    ...mapActions(usePortfolioActions, ['getPortfolio']),
+    ...mapActions(usePortfolioActions, ['getPortfolio', "getCurrenciesBalance"]),
     ...mapActions(useAlgorithmsActions, ['getAlgorithms']),
     async updateRobotData(){
+      this.currenciesBalance = await this.getCurrenciesBalance(this.robot)
       this.portfolio = await this.getPortfolio(this.robot)
       this.algorithms = await this.getAlgorithms(this.robot)
     }

@@ -1,5 +1,6 @@
 <template>
-  {{sign}}
+  <span>{{sign}}</span>
+
 </template>
 
 <script lang="ts">

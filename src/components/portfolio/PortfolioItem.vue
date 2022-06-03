@@ -47,13 +47,13 @@ export default defineComponent({
     }
   },
   methods: {
-    ...mapActions(usePortfolioActions, ["getAverageBuyPrice"])
+    ...mapActions(usePortfolioActions, ["getAverageBuyPrice"]),
+    ...mapActions(useSecuritiesStore, ["getSecurity"])
   },
   computed: {
     ...mapState(useSecuritiesStore, ["securities"]),
     security(){
-      return this.securities
-        .find(security => security.ticker === this.portfolioPosition.security_ticker)
+      return this.getSecurity(this.portfolioPosition.security_ticker)
     },
     growth(){ return (this.security?.price || 0) > this.buyPrice.price},
     diffAbsolute(){
