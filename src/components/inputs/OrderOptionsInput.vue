@@ -28,7 +28,7 @@ export default defineComponent({
   data() {
     return{
       currentValue: this.modelValue,
-      operationTypes: ['buy', "sell", "buy_or_cancel", "sell_or_cancel"] as OperationType[]
+      operationTypes: ['limit_buy', "limit_sell", 'market_buy', "market_sell", "buy_or_cancel", "sell_or_cancel"] as OperationType[]
     }
   },
   methods: {

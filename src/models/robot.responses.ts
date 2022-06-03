@@ -1,9 +1,12 @@
+import {OrderDetails} from "src/models/index";
+
 export type CheckAuthResponse = {
   status: 'Authorized' | 'Not Authorized'
   auth: boolean
 }
 
 export type AlgoInput = {
-  [key: string]: AlgoInputType
+  [key: string]: AlgoInputTypeName
 }
-export type AlgoInputType = 'OrderDetails' | 'number'
+export type AlgoInputTypeName = 'OrderDetails' | 'number' | 'string' | 'Date'
+export type AlgoInputType = OrderDetails | number | string | Date

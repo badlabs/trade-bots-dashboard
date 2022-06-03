@@ -6,6 +6,8 @@
           <div v-for="input in fields" :key="input.name">
             <q-input v-if="input.type === 'number'" v-model="input.value" type="number" :label="input.name" />
             <OrderOptionsInput v-else-if="input.type === 'OrderDetails'" v-model="input.value" :label="input.name" />
+            <q-input v-else-if="input.type === 'string'" v-model="input.value" :label="input.name" />
+            <DateTimeInput v-else-if="input.type === 'Date'" v-model="input.value" :label="input.name" />
           </div>
         </q-card-section>
         <q-card-actions align="right">
@@ -24,11 +26,12 @@
 
 <script lang="ts">
 import {defineComponent} from "vue";
-import {AlgoInput, AlgoInputType, OrderDetails, TradeBot} from "src/models";
+import {AlgoInput, AlgoInputType, AlgoInputTypeName, OrderDetails, TradeBot} from "src/models";
 import { Algorithm } from "@badlabs/trade-bot__db-types";
 import OrderOptionsInput from "components/inputs/OrderOptionsInput.vue";
 import {mapActions} from "pinia";
 import {useAlgorithmsActions} from "stores/algorithms.actions";
+import DateTimeInput from "components/inputs/DateTimeInput.vue";
 
 export default defineComponent({
   name: "RunAlgoModal",
@@ -43,13 +46,14 @@ export default defineComponent({
     }
   },
   components: {
+    DateTimeInput,
     OrderOptionsInput
   },
   data() {
     return {
       show: false,
       loading: false,
-      fields: [] as { name: string, type: AlgoInputType, value: number | OrderDetails }[]
+      fields: [] as { name: string, type: AlgoInputTypeName, value: AlgoInputType }[]
     }
   },
   methods: {
@@ -69,10 +73,16 @@ export default defineComponent({
     const inputs = this.getAlgorithmInputsTypes(this.algorithm)
     this.fields = Object.keys(inputs).map(input => {
       let type = inputs[input]
-      let value: number | OrderDetails = 0
+      let value: AlgoInputType = 0
       switch (type) {
         case "number":
           value = 0
+          break
+        case 'string':
+          value = ''
+          break
+        case 'Date':
+          value = new Date()
           break
         case "OrderDetails":
           value = { lots: 0, operation: 'limit_buy', price: 0, ticker: '' }
