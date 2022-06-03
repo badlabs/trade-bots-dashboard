@@ -6,14 +6,14 @@
         <q-chip dense dark color="blue">active</q-chip>
       </div>
 
-      <div>
-        <q-item-label caption style="font-size: 16px; font-weight: bold">{{portfolioStatistics.priceAll}} $</q-item-label>
-        <q-item-label caption
-                      :class="`text-${portfolioStatistics.growth ? 'green' : 'red'}`"
-                      style="font-size: 14px">
-          {{ portfolioStatistics.growth ? '↑' : '↓' }}{{portfolioStatistics.diffAbs}} $ ({{portfolioStatistics.diffPer}} %)
-        </q-item-label>
-      </div>
+<!--      <div>-->
+<!--        <q-item-label caption style="font-size: 16px; font-weight: bold">{{portfolioStatistics.priceAll}} $</q-item-label>-->
+<!--        <q-item-label caption-->
+<!--                      :class="`text-${portfolioStatistics.growth ? 'green' : 'red'}`"-->
+<!--                      style="font-size: 14px">-->
+<!--          {{ portfolioStatistics.growth ? '↑' : '↓' }}{{portfolioStatistics.diffAbs}} $ ({{portfolioStatistics.diffPer}} %)-->
+<!--        </q-item-label>-->
+<!--      </div>-->
 
     </q-card-section>
 
@@ -34,7 +34,7 @@ import {TradeBot} from "src/models";
 import {defineComponent, ref, Ref} from "vue";
 import {mapActions} from "pinia";
 import { useRobotActions } from "stores/robot.actions";
-import { useRobotStatisticsActions } from "src/stores/robot-statistics.actions";
+import { usePortfolioActions } from "stores/portfolio.actions";
 import { PortfolioPosition } from "@badlabs/trade-bot__db-types";
 
 export default defineComponent({
@@ -51,13 +51,10 @@ export default defineComponent({
     }
   },
   computed: {
-    portfolioStatistics(){
-      return this.getPortfolioStatistics(this.portfolio)
-    }
   },
   methods: {
-    ...mapActions(useRobotStatisticsActions, ['getPortfolioStatistics']),
-    ...mapActions(useRobotActions, ['getPortfolio', 'getSecurities'])
+    ...mapActions(usePortfolioActions, ["getPortfolio"]),
+    ...mapActions(useRobotActions, ['getSecurities']),
   },
   watch:{
     async robot(robot){

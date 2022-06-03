@@ -9,7 +9,7 @@
         <RobotLogsModal :robot="robot" />
       </div>
     </div>
-    <PortfolioStatistics :portfolio="portfolio" />
+    <PortfolioStatistics :robot="robot" :portfolio="portfolio" />
     <AlgosList :algorithms="algorithms" :robot="robot" />
   </div>
 </template>
@@ -20,11 +20,12 @@ import {useRobotsStore} from "stores/robots.store";
 import {useRobotActions} from "stores/robot.actions";
 import {mapActions, mapState} from "pinia";
 import {TradeBot} from "src/models";
-import PortfolioStatistics from "components/PortfolioStatistics.vue";
+import PortfolioStatistics from "components/portfolio/PortfolioView.vue";
 import RobotLogsModal from "components/RobotLogsModal.vue";
 import AlgosList from "components/algorithms/AlgosList.vue";
 import {Algorithm, PortfolioPosition} from "@badlabs/trade-bot__db-types";
 import {useAlgorithmsActions} from "stores/algorithms.actions";
+import {usePortfolioActions} from "stores/portfolio.actions";
 
 export default defineComponent({
   name: "RobotScreen",
@@ -50,7 +51,7 @@ export default defineComponent({
     }
   },
   methods: {
-    ...mapActions(useRobotActions, ['getPortfolio']),
+    ...mapActions(usePortfolioActions, ['getPortfolio']),
     ...mapActions(useAlgorithmsActions, ['getAlgorithms']),
     async updateRobotData(){
       this.portfolio = await this.getPortfolio(this.robot)

@@ -29,7 +29,7 @@
   </div>
 
   <!-- Total Currencies -->
-  <PortfolioStatistics :portfolio="unitedPortfolioStatistics.unitedPortfolio"/>
+  <PortfolioView :portfolio="unitedPortfolio"/>
 
   <!-- Algorithm -->
   <div class="q-pa-md q-my-lg q-mx-auto" style="max-width: 800px; background: lightblue; border-radius: 5px">
@@ -57,9 +57,9 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import {useRobotsStore} from "stores/robots.store";
-import {useRobotStatisticsActions} from "stores/robot-statistics.actions";
+import {usePortfolioActions} from "stores/portfolio.actions";
 import {mapState, mapActions} from "pinia";
-import PortfolioStatistics from "components/PortfolioStatistics.vue";
+import PortfolioView from "components/portfolio/PortfolioView.vue";
 import { PortfolioPosition } from "@badlabs/trade-bot__db-types";
 
 export default defineComponent({
@@ -68,28 +68,20 @@ export default defineComponent({
     return{
       algos: [1,2,3,4,5],
       securities: [1,2,3,4,5],
-      unitedPortfolioStatistics: {
-        unitedPortfolio: [] as PortfolioPosition[],
-        unitedPortfolioStatistics: {
-          buyPriceAll: 0, priceAll: 0,
-          growth: false,
-          diffAbs: 0,
-          diffPer: 0
-        }
-      }
+      unitedPortfolio: [] as PortfolioPosition[]
     }
   },
   components: {
-    PortfolioStatistics
+    PortfolioView
   },
   methods: {
-    ...mapActions(useRobotStatisticsActions, ['getUnitePortfolioStatistics'])
+    ...mapActions(usePortfolioActions, ["getUnitedPortfolio"])
   },
   computed: {
     ...mapState(useRobotsStore, ['robots'])
   },
   async created(){
-    this.unitedPortfolioStatistics = await this.getUnitePortfolioStatistics()
+    this.unitedPortfolio = await this.getUnitedPortfolio()
   }
 
 })
