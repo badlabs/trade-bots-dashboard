@@ -10,9 +10,13 @@
   <!-- Connected Robots -->
   <div class="q-pa-md q-my-lg q-mx-auto" style="max-width: 800px; background: lightblue; border-radius: 5px">
     <div style="text-align: center; font-size: 16px; font-weight: bold">Connected robots: Info</div>
-      <q-list separator class="connected-robots__items q-my-md">
+      <q-list separator class="connected-robots__items q-my-md rounded-borders">
           <q-item v-for="(robot, index) in robots" :key="index">
-            <q-item-section>{{ robot.name }}</q-item-section>
+            <q-item-section>
+              <div class="text-bold">
+                <RobotAvatar :name="robot.name" class="q-mr-md" /> {{ robot.name }}
+              </div>
+            </q-item-section>
             <q-item-section>{{ robot.algorithm || 'used algorithm' }}</q-item-section>
             <q-item-section>
               <div>
@@ -63,6 +67,7 @@ import {usePortfolioActions} from "stores/portfolio.actions";
 import {mapState, mapActions} from "pinia";
 import PortfolioView from "components/portfolio/PortfolioView.vue";
 import {CurrencyBalance, PortfolioPosition} from "@badlabs/trade-bot__db-types";
+import RobotAvatar from "components/RobotAvatar.vue";
 
 export default defineComponent({
   name: "MainScreen",
@@ -75,6 +80,7 @@ export default defineComponent({
     }
   },
   components: {
+    RobotAvatar,
     PortfolioView
   },
   methods: {
