@@ -16,6 +16,12 @@ export const robotFromRoute = defineComponent({
       }
       return robot
     }
+  },
+  mounted() {
+    if (this.robot.name.startsWith('[System]')) {
+      console.log(this.robot)
+      this.$router.push({ name: 'NotFound' })
+    }
   }
 })
 
@@ -28,6 +34,12 @@ export const algorithmFromRoute = defineComponent({
         return this.algorithmNotFound
       }
       return algorithm.algorithm
+    }
+  },
+  mounted() {
+    if (this.algorithm.name.startsWith('[System]')) {
+      console.log(this.algorithm)
+      this.$router.push({ name: 'NotFound' })
     }
   }
 

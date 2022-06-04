@@ -20,7 +20,7 @@ export class TradeBot {
   }
 
   static notFound(): TradeBot{
-    return new TradeBot({name: 'Not Found', host: '', port: 0, token: ''})
+    return new TradeBot({name: '[System] Not Found', host: '', port: 0, token: ''})
   }
 
   get url(){

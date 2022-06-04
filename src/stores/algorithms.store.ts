@@ -16,7 +16,7 @@ export const useAlgorithmsStore = defineStore('algorithmsStore', {
   getters: {
     algorithmNotFound(): Algorithm {
       return {
-        name: 'Not Found',
+        name: '[System] Not Found',
         input_types: JSON.stringify({}),
         description: ''
       }
