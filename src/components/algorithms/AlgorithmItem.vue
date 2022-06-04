@@ -15,6 +15,7 @@
           </q-item>
         </q-list>
         <q-card-actions align="right">
+          <q-btn color="primary" :to="`/robots/${robot.name}/algorithms/${algorithm.name}`" label="Runs" />
           <RunAlgoModal :robot="robot" :algorithm="algorithm" />
         </q-card-actions>
       </q-card>
@@ -28,7 +29,7 @@ import {Algorithm} from "@badlabs/trade-bot__db-types";
 import {AlgoInput, TradeBot} from "src/models";
 import RunAlgoModal from "components/RunAlgoModal.vue";
 import {mapActions} from "pinia";
-import {useAlgorithmsActions} from "stores/algorithms.actions";
+import {useAlgorithmsStore} from "stores/algorithms.store";
 
 export default defineComponent({
   name: "AlgorithmItem",
@@ -49,7 +50,7 @@ export default defineComponent({
     }
   },
   methods: {
-    ...mapActions(useAlgorithmsActions, ["getAlgorithmInputsTypes"])
+    ...mapActions(useAlgorithmsStore, ["getAlgorithmInputsTypes"])
   }
 })
 </script>

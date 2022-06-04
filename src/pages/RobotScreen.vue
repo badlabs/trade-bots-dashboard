@@ -4,7 +4,7 @@
       <q-btn color="primary" to="/robots" label="< Robots"/>
     </div>
     <div class="row justify-between">
-      <h4>Robot {{robot.name}}</h4>
+      <h4><RobotAvatar :name="robot.name" /> Robot <code>{{robot.name}}</code> </h4>
       <div>
         <RobotLogsModal :robot="robot" />
       </div>
@@ -24,12 +24,15 @@ import PortfolioStatistics from "components/portfolio/PortfolioView.vue";
 import RobotLogsModal from "components/RobotLogsModal.vue";
 import AlgosList from "components/algorithms/AlgosList.vue";
 import {Algorithm, CurrencyBalance, PortfolioPosition} from "@badlabs/trade-bot__db-types";
-import {useAlgorithmsActions} from "stores/algorithms.actions";
+import {useAlgorithmsStore} from "stores/algorithms.store";
 import {usePortfolioActions} from "stores/portfolio.actions";
+import {robotFromRoute} from "src/mixins";
+import RobotAvatar from "components/RobotAvatar.vue";
 
 export default defineComponent({
   name: "RobotScreen",
   components: {
+    RobotAvatar,
     PortfolioStatistics, AlgosList, RobotLogsModal
   },
   data() {
@@ -37,20 +40,9 @@ export default defineComponent({
 
     }
   },
-  computed: {
-    ...mapState(useRobotsStore, ['robots']),
-    robot(){
-      // @ts-ignore
-      const robot = this.robots.find((r: TradeBot) => r.name === this.$route.params.robot)
-      if (!robot) {
-        this.$router.push('/')
-        return new TradeBot({name: '', host: '', port: 0, token: ''})
-      }
-      return robot
-    }
-  },
+  mixins: [ robotFromRoute ],
   methods: {
-    ...mapActions(useAlgorithmsActions, ['getAlgorithms']),
+    ...mapActions(useAlgorithmsStore, ['getAlgorithms']),
     async updateRobotData(){
     }
   },

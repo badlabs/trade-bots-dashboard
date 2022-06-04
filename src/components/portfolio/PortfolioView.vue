@@ -47,20 +47,34 @@ export default defineComponent({
     }
   },
   methods: {
-    ...mapActions(usePortfolioActions, [ 'getAverageBuyPrice', "getUnitedPortfolio", "getUnitedBalance", "getPortfolio", "getCurrenciesBalance"])
+    ...mapActions(usePortfolioActions, [ 'getAverageBuyPrice', "getUnitedPortfolio", "getUnitedBalance", "getPortfolio", "getCurrenciesBalance"]),
+    async fetch(){
+      this.loading = true
+      try {
+        if (!this.robot) {
+          this.portfolio = await this.getUnitedPortfolio()
+          this.balance = await this.getUnitedBalance()
+        }
+        else {
+          this.portfolio = await this.getPortfolio(this.robot)
+          this.balance = await this.getCurrenciesBalance(this.robot)
+        }
+      }
+      catch (e) {
+        this.portfolio = []
+        this.balance = []
+      }
+      this.loading = false
+    }
   },
-  async mounted(){
-    this.loading = true
-    if (!this.robot) {
-      this.portfolio = await this.getUnitedPortfolio()
-      this.balance = await this.getUnitedBalance()
+  watch: {
+    robot(){
+      this.fetch()
     }
-    else {
-      this.portfolio = await this.getPortfolio(this.robot)
-      this.balance = await this.getCurrenciesBalance(this.robot)
-    }
-    this.loading = false
-  }
+  },
+  mounted(){
+    this.fetch()
+  },
 })
 </script>
 

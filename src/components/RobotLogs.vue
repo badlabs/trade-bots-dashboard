@@ -1,9 +1,8 @@
 <template>
-  <code style="overflow-y: auto">
+  <div style="overflow-y: auto">
     <pre class="bg-black text-white q-pa-md"
-         style="overflow: auto"
          :style="{whiteSpace: singleLine ? 'pre-wrap' : undefined}">{{ singleLine ? lastLine : logs}}</pre>
-  </code>
+  </div>
 </template>
 
 <script lang="ts">

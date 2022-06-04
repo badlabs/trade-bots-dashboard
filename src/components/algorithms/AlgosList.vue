@@ -21,7 +21,7 @@ import {AlgoInput, TradeBot} from "src/models";
 import {Algorithm} from "@badlabs/trade-bot__db-types";
 import AlgorithmItem from "components/algorithms/AlgorithmItem.vue";
 import {mapActions} from "pinia";
-import {useAlgorithmsActions} from "stores/algorithms.actions";
+import {useAlgorithmsStore} from "stores/algorithms.store";
 
 export default defineComponent({
   name: "AlgosList",
@@ -38,15 +38,28 @@ export default defineComponent({
     }
   },
   methods: {
-    ...mapActions(useAlgorithmsActions, ['getAlgorithms']),
+    ...mapActions(useAlgorithmsStore, ['getAlgorithms']),
+    async fetch(){
+      this.loading = true
+      try {
+        this.algorithms = await this.getAlgorithms(this.robot)
+      }
+      catch (e) {
+        this.algorithms = []
+      }
+      this.loading = false
+    }
   },
   components: {
     AlgorithmItem
   },
   async mounted() {
-    this.loading = true
-    this.algorithms = await this.getAlgorithms(this.robot)
-    this.loading = false
+    this.fetch()
+  },
+  watch: {
+    robot(){
+      this.fetch()
+    }
   }
 })
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <q-avatar size="30px" :color="color" class="text-white">{{firstLetter}}</q-avatar>
+  <q-avatar size="1.5em" :color="color" class="text-white">{{firstLetter}}</q-avatar>
 </template>
 
 <script lang="ts">
@@ -25,7 +25,7 @@ export default defineComponent({
       return this.colors[this.rand(this.colors.length)]
     },
     firstLetter(){
-      return this.name.substring(0,1)
+      return this.name.substring(0,1).toUpperCase()
     }
   }
 })

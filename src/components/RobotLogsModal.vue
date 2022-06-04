@@ -3,7 +3,7 @@
             :maximized="maximizedToggle"
             transition-show="slide-up"
             transition-hide="slide-down" >
-    <q-card style="min-width: 400px" class="bg-black text-white">
+    <q-card :style="{ maxHeight: maximizedToggle ? undefined : '50vh' }"  class="bg-black text-white">
       <q-bar class="bg-primary">
         Logs {{robot.name}}
         <q-space />
@@ -18,7 +18,7 @@
           <q-tooltip class="bg-white text-primary">Close</q-tooltip>
         </q-btn>
       </q-bar>
-      <RobotLogs style="max-width: 600px; max-height: 400px;" :robot="robot" />
+      <RobotLogs :robot="robot" />
     </q-card>
   </q-dialog>
   <q-btn @click="show = !show" color="primary" >Logs</q-btn>

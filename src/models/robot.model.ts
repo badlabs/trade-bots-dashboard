@@ -19,6 +19,10 @@ export class TradeBot {
     this.token = token
   }
 
+  static notFound(): TradeBot{
+    return new TradeBot({name: 'Not Found', host: '', port: 0, token: ''})
+  }
+
   get url(){
     return `http://${this.host}:${this.port}`
   }

@@ -1,6 +1,11 @@
 <template>
   <q-dialog v-model="show" persistent>
     <q-card style="min-width: 400px">
+      <q-bar class="bg-primary text-white">
+        <div class="q-ma-md">
+          Run algorithm <code>{{algorithm.name}}</code> for <code>{{robot.name}}</code>
+        </div>
+      </q-bar>
       <q-form @submit.prevent="startAlgo">
         <q-card-section>
           <div v-for="input in fields" :key="input.name">
@@ -30,7 +35,7 @@ import {AlgoInput, AlgoInputType, AlgoInputTypeName, OrderDetails, TradeBot} fro
 import { Algorithm } from "@badlabs/trade-bot__db-types";
 import OrderOptionsInput from "components/inputs/OrderOptionsInput.vue";
 import {mapActions} from "pinia";
-import {useAlgorithmsActions} from "stores/algorithms.actions";
+import {useAlgorithmsStore} from "stores/algorithms.store";
 import DateTimeInput from "components/inputs/DateTimeInput.vue";
 
 export default defineComponent({
@@ -57,7 +62,7 @@ export default defineComponent({
     }
   },
   methods: {
-    ...mapActions(useAlgorithmsActions, ["runAlgorithm", "getAlgorithmInputsTypes"]),
+    ...mapActions(useAlgorithmsStore, ["runAlgorithm", "getAlgorithmInputsTypes"]),
     async startAlgo(){
       this.loading = true
       const body: any = {}

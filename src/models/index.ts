@@ -1,5 +1,6 @@
 export * from './robot.model'
 export * from './robot.responses'
+export * from './store'
 
 export type OrderDetails = {
   operation: OperationType

@@ -2,7 +2,7 @@
   <q-card style="max-width: 600px" class="q-mx-auto">
     <q-card-section>
       <div class="row justify-between">
-        <div class="text-h6"><RobotAvatar :name="robot.name" /> {{robot.name}}</div>
+        <div class="text-h6"><RobotAvatar :name="robot.name" /> <code>{{robot.name}}</code></div>
         <q-chip dense dark color="blue">active</q-chip>
       </div>
 
@@ -22,7 +22,7 @@
     </q-card-section>
 
     <q-card-actions align="right">
-      <q-btn color="blue" dark :to="`/robot/${robot.name}`">
+      <q-btn color="blue" dark :to="`/robots/${robot.name}`">
         More
       </q-btn>
     </q-card-actions>
