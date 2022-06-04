@@ -9,7 +9,7 @@ export const useSecuritiesStore = defineStore('securities', {
 
   },
   actions: {
-    updateSecurities(freshSecurities: Security[]){
+    updateSecuritiesStore(freshSecurities: Security[]){
       freshSecurities.forEach(freshSecurity => {
         const existingSecurity = this.securities.find(security => security.ticker === freshSecurity.ticker)
         if (existingSecurity){

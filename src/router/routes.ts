@@ -8,6 +8,7 @@ const routes: RouteRecordRaw[] = [
       { path: '', component: () => import('pages/MainScreen.vue')},
       { path: 'robots', component: () => import('pages/RobotsListScreen.vue')},
       { path: 'robots/:robot', component: () => import('pages/RobotScreen.vue')},
+      { path: 'robots/:robot/orders', component: () => import('pages/OrdersScreen.vue')},
       { path: 'robots/:robot/algorithms/:algorithm', component: () => import('pages/AlgorithmRunsScreen.vue')},
       { path: 'algorithms', component: () => import('pages/AlgorithmsScreen.vue')}
     ],
@@ -18,6 +19,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue'),
+    name: 'NotFound'
   },
 ];
 

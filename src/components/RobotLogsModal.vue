@@ -5,7 +5,7 @@
             transition-hide="slide-down" >
     <q-card :style="{ maxHeight: maximizedToggle ? undefined : '50vh' }"  class="bg-black text-white">
       <q-bar class="bg-primary">
-        Logs {{robot.name}}
+        <q-icon name="notes" /> Logs {{robot.name}}
         <q-space />
 
         <q-btn dense flat icon="minimize" @click="maximizedToggle = false" :disable="!maximizedToggle">
@@ -21,7 +21,9 @@
       <RobotLogs :robot="robot" />
     </q-card>
   </q-dialog>
-  <q-btn @click="show = !show" color="primary" >Logs</q-btn>
+  <q-btn @click="show = !show" color="primary" >
+    <q-icon name="notes" /> Logs
+  </q-btn>
 </template>
 
 <script lang="ts">

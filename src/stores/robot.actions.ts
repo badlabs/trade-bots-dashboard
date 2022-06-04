@@ -21,7 +21,7 @@ export const useRobotActions = defineStore('robotActions', {
       const securitiesStore = useSecuritiesStore()
       const { data: freshSecurities }: { data: Security[] } =
         await axios.get(`${tradeBot.url}/api/state/securities`, { headers: tradeBot.authHeader })
-      securitiesStore.updateSecurities(freshSecurities)
+      securitiesStore.updateSecuritiesStore(freshSecurities)
       return freshSecurities
     },
 
@@ -29,7 +29,7 @@ export const useRobotActions = defineStore('robotActions', {
       const securitiesStore = useSecuritiesStore()
       const { data: freshSecurities }: { data: Security[] } =
         await axios.post(`${tradeBot.url}/api/state/securities`,{}, { headers: tradeBot.authHeader })
-      securitiesStore.updateSecurities(freshSecurities)
+      securitiesStore.updateSecuritiesStore(freshSecurities)
       return freshSecurities
     },
 

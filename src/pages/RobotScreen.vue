@@ -5,10 +5,13 @@
     </div>
     <div class="row justify-between">
       <h4><RobotAvatar :name="robot.name" /> Robot <code>{{robot.name}}</code> </h4>
-      <div>
-        <RobotLogsModal :robot="robot" />
-      </div>
     </div>
+    <q-btn-group>
+      <RobotLogsModal :robot="robot" />
+      <q-btn :to="`/robots/${robot.name}/orders`" color="primary" >
+        <q-icon name="list_alt" /> Orders
+      </q-btn>
+    </q-btn-group>
     <PortfolioStatistics :robot="robot" />
     <AlgosList :robot="robot" />
   </div>

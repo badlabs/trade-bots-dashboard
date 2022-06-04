@@ -38,8 +38,11 @@ export default defineComponent({
     this.connection = io(wsUrl)
 
     this.connection.on('log', (event) => {
-      console.log(event)
       this.logs += event + '\n'
+    })
+
+    this.connection.on('disconnect', (event) => {
+      this.logs += this.robot.name + ' was disconnected: ' + event + '\n'
     })
   },
   beforeUnmount() {

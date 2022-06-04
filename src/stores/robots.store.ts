@@ -4,6 +4,7 @@ import axios from 'axios';
 import { CheckAuthResponse } from 'src/models/robot.responses';
 import {useRobotActions} from "stores/robot.actions";
 import { usePortfolioActions } from "stores/portfolio.actions";
+import {useAlgorithmsStore} from "stores/algorithms.store";
 
 export const useRobotsStore = defineStore('robots', {
   state: () => ({
@@ -26,10 +27,12 @@ export const useRobotsStore = defineStore('robots', {
     async addRobot(robotOptions: RobotInitOptions){
       const robotActions = useRobotActions()
       const portfolioActions = usePortfolioActions()
+      const algorithmsStore = useAlgorithmsStore()
       if (!this.checkExistingRobot(robotOptions)) {
         const newRobot = new TradeBot(robotOptions)
         await robotActions.updateSecurities(newRobot)
         await portfolioActions.updatePortfolio(newRobot)
+        await algorithmsStore.getAlgorithms(newRobot)
         this.robots.push(newRobot)
       }
     },
