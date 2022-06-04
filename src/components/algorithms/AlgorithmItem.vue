@@ -2,14 +2,19 @@
   <q-item
     dense>
     <q-item-section class="q-pa-sm q-my-sm">
-      <q-card class="my-card" style="max-height: 300px;">
-        <q-card-section class="text-h5">Algorithm {{algorithm.name}}</q-card-section>
+      <q-card class="my-card">
+        <q-card-section class="text-h5">Algorithm <code>{{algorithm.name}}</code> </q-card-section>
+        <q-card-section>
+          <p v-for="(line, index) in algorithm.description.split('\n')" :key="index">
+            {{line}}
+          </p>
+        </q-card-section>
         <q-list separator class="bg-white">
           <q-item v-for="( type, name ) in inputs" :key="name">
             <q-item-section>{{name}}</q-item-section>
             <q-item-label>
-              <q-chip>
-                <code>{{type}}</code>
+              <q-chip class="font-monospace">
+                {{type}}
               </q-chip>
             </q-item-label>
           </q-item>
@@ -56,5 +61,4 @@ export default defineComponent({
 </script>
 
 <style scoped>
-
 </style>

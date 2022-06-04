@@ -27,14 +27,11 @@
 import { defineComponent } from 'vue'
 import { useRobotsStore } from "stores/robots.store";
 import { RobotInitOptions } from "src/models";
+import {mapActions} from "pinia";
 
 export default defineComponent({
   name: "ConnectRobotModal",
-  setup() {
-    return {
-      store: useRobotsStore()
-    }
-  },
+  emits: ['addRobot', 'robotAdded'],
   data(){
     return {
       show: false as boolean,
@@ -49,15 +46,16 @@ export default defineComponent({
     }
   },
   methods: {
+    ...mapActions(useRobotsStore, ['checkRobotAuth', "addRobot"]),
     async checkRobot(){
       this.loading = true
-      if (await this.store.checkRobotAuth(this.robotOptions)) this.checkStatus = 'success'
+      if (await this.checkRobotAuth(this.robotOptions)) this.checkStatus = 'success'
       else this.checkStatus = 'error'
       this.loading = false
     },
     connectRobot(){
       this.$emit('addRobot')
-      this.store.addRobot(this.robotOptions).finally(() => this.$emit('robotAdded'))
+      this.addRobot(this.robotOptions).finally(() => this.$emit('robotAdded'))
       this.robotOptions = {
         name: '',
         host: 'localhost',

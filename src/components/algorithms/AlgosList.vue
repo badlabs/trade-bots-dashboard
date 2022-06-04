@@ -4,7 +4,7 @@
       Algorithms
     </q-card-section>
     <q-list
-      style="max-height: 300px; overflow-y: auto"
+      style="max-height: 70vh; overflow-y: auto"
       separator>
       <AlgorithmItem v-for="(algo, index) in algorithms" :key="index"
                      :robot="robot" :algorithm="algo" dense/>

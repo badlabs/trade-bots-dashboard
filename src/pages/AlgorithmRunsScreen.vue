@@ -7,6 +7,18 @@
     <div class="row justify-between">
       <h4>Robot <code>{{robot.name}}</code> : Algorithm <code>{{algorithm.name}}</code></h4>
     </div>
+    <section class="row q-mx-md">
+      <div class="q-mr-lg" style="min-width: 200px">
+        <span class="text-h6">Description</span>
+        <p v-for="(line, index) in algorithm.description.split('\n')" :key="index">
+          {{line}}
+        </p>
+      </div>
+      <div>
+        <span class="text-h6">Input Types</span>
+        <pre>{{JSON.stringify(JSON.parse(algorithm.input_types), null, 2)}}</pre>
+      </div>
+    </section>
     <section>
       <q-table
         :rows="algorithmRuns"

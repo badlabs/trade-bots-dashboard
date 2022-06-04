@@ -18,7 +18,8 @@
     </q-card-section>
 
     <q-card-section>
-      <RobotLogs class="text-" single-line :robot="robot" />
+      <div>Last logs:</div>
+      <RobotLogs class="rounded-borders" single-line :robot="robot" />
     </q-card-section>
 
     <q-card-actions align="right">
