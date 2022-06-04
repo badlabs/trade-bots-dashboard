@@ -1,9 +1,12 @@
 <template>
   <div class="q-pa-md">
-    <div class="q-gutter-sm">
-      <q-btn color="primary" to="/robots" label="< Robots"/>
-      <q-btn color="primary" :to="`/robots/${robot.name}`" :label="`< Robot ${robot.name}`"/>
-    </div>
+    <q-breadcrumbs class="q-ma-md">
+      <q-breadcrumbs-el label="Home" icon="home" to="/" />
+      <q-breadcrumbs-el label="Robots" icon="widgets" to="/robots" />
+      <q-breadcrumbs-el :label="robot.name" icon="precision_manufacturing" :to="`/robots/${robot.name}`" />
+      <q-breadcrumbs-el label="Algorithms" icon="format_list_numbered" />
+      <q-breadcrumbs-el :label="algorithm.name" icon="task" class="text-primary" />
+    </q-breadcrumbs>
     <div class="row justify-between">
       <h4>Robot <code>{{robot.name}}</code> : Algorithm <code>{{algorithm.name}}</code></h4>
     </div>
@@ -95,7 +98,7 @@ import {mapActions} from "pinia";
 import {useAlgorithmsStore} from "stores/algorithms.store";
 
 export default defineComponent({
-  name: "AlgorithmRunsScreen",
+  name: "AlgorithmScreen",
   data(){
     return{
       algorithmRuns: [] as AlgorithmRun[],

@@ -20,7 +20,7 @@
       </q-form>
     </q-card>
   </q-dialog>
-  <q-btn @click="show = !show" round color="primary" icon="add" />
+  <q-btn @click="show = !show" color="primary" icon="add" label="Connect New Robot" />
 </template>
 
 <script lang="ts">
@@ -53,9 +53,9 @@ export default defineComponent({
       else this.checkStatus = 'error'
       this.loading = false
     },
-    connectRobot(){
+    async connectRobot(){
       this.$emit('addRobot')
-      this.addRobot(this.robotOptions).finally(() => this.$emit('robotAdded'))
+      this.addRobot(this.robotOptions).then(() => this.$emit('robotAdded'))
       this.robotOptions = {
         name: '',
         host: 'localhost',

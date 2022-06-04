@@ -1,14 +1,13 @@
 <template>
   <div class="q-pa-md">
-    <div class="q-gutter-sm">
-      <q-btn color="primary" to="/" label="< Main"/>
-    </div>
+    <q-breadcrumbs class="q-ma-md">
+      <q-breadcrumbs-el  label="Main" icon="home" to="/" />
+      <q-breadcrumbs-el label="Robots" icon="widgets" class="text-primary" />
+    </q-breadcrumbs>
     <div class="row justify-between">
-      <h4>List of Robots</h4>
-      <div>
-        <ConnectRobotModal @addRobot="showSkeleton = true" @robotAdded="showSkeleton = false" />
-      </div>
+      <span class="text-h4 q-my-md">List of Robots</span>
     </div>
+    <ConnectRobotModal @addRobot="showSkeleton = true" @robotAdded="showSkeleton = false" />
     <RobotSkeleton v-if="showSkeleton" class="q-my-sm q-mx-auto" />
     <RobotTile v-for="(robot, index) in robots" :key="index" :robot="robot" class="q-my-sm" />
   </div>

@@ -1,8 +1,10 @@
 <template>
   <div class="q-pa-md">
-    <div class="q-gutter-sm">
-      <q-btn color="primary" to="/robots" label="< Robots"/>
-    </div>
+    <q-breadcrumbs class="q-ma-md">
+      <q-breadcrumbs-el label="Home" icon="home" to="/" />
+      <q-breadcrumbs-el label="Robots" icon="widgets" to="/robots" />
+      <q-breadcrumbs-el :label="robot.name" icon="precision_manufacturing" class="text-primary" />
+    </q-breadcrumbs>
     <div class="row justify-between">
       <h4><RobotAvatar :name="robot.name" /> Robot <code>{{robot.name}}</code> </h4>
     </div>

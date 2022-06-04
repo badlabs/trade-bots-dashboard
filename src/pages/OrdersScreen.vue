@@ -1,12 +1,18 @@
 <template>
   <div class="q-pa-md">
+    <q-breadcrumbs class="q-ma-md">
+      <q-breadcrumbs-el label="Home" icon="home" to="/" />
+      <q-breadcrumbs-el label="Robots" icon="widgets" to="/robots" />
+      <q-breadcrumbs-el :label="robot.name" icon="precision_manufacturing" :to="`/robots/${robot.name}`" />
+      <q-breadcrumbs-el label="Orders" icon="list_alt" class="text-primary" />
+    </q-breadcrumbs>
     <q-card class="q-mb-lg">
       <q-card-section class="text-h6">
         Filters
       </q-card-section>
       <q-card-section class="row">
         <div class="q-mr-sm full-width col-sm">
-          <q-date v-model="date" range subtitle="Time range" />
+          <q-date v-model="date" range today-btn subtitle="Time range" />
         </div>
 
         <div class="full-width col-sm">
