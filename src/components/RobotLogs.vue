@@ -11,6 +11,8 @@
 import {defineComponent} from "vue";
 import {io, Socket} from "socket.io-client";
 import { TradeBot } from "src/models";
+import {mapActions} from "pinia";
+import {useRobotsStore} from "stores/robots.store";
 
 export default defineComponent({
   name: "RobotLogs",
@@ -31,6 +33,7 @@ export default defineComponent({
     }
   },
   methods: {
+    ...mapActions(useRobotsStore, ["updateRobotStatus"]),
     jsonReplacer(str: string): string{
       // TODO: Finish JSON colorizer
       const keyValueRegexp = /("[\w_]*"):(\d+\.?\d*)?(".*")?([]),?/gi
@@ -53,14 +56,23 @@ export default defineComponent({
   },
   mounted(){
     const wsUrl = `${this.robot.url}`
-    this.connection = io(wsUrl)
+    this.connection = io(wsUrl, {  extraHeaders: this.robot.authHeader })
 
     this.connection.on('log', (event) => {
       this.logs += this.highlightSyntax(event) + '\n'
     })
 
+    this.connection.on('connect', () => {
+      this.updateRobotStatus(this.robot)
+    })
+
+    this.connection.on('connect_error', () => {
+      this.updateRobotStatus(this.robot)
+    })
+
     this.connection.on('disconnect', (event) => {
       this.logs += this.robot.name + ' was disconnected: ' + event + '\n'
+      this.updateRobotStatus(this.robot)
     })
   },
   beforeUnmount() {

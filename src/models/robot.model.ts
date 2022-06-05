@@ -11,6 +11,7 @@ export class TradeBot {
   readonly token?: string
 
   readonly name: string
+  status: 'Disconnected' | 'Active' | 'Not Authorized' = 'Disconnected'
 
   constructor({ name, host, port, token }: RobotInitOptions){
     this.name = name

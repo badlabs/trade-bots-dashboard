@@ -24,6 +24,20 @@ export const useRobotsStore = defineStore('robots', {
       }
 
     },
+    async updateRobotStatus(robot: TradeBot): Promise<TradeBot> {
+      try {
+        const {data: response}: { data: CheckAuthResponse } = await axios.get(`${robot.url}/api/auth/check`, { headers: robot.authHeader })
+        if (!response.auth) {
+          robot.status = 'Not Authorized'
+          return robot
+        }
+        robot.status = 'Active'
+        return robot
+      } catch (e) {
+        robot.status = 'Disconnected'
+        return robot
+      }
+    },
     async addRobot(robotOptions: RobotInitOptions){
       const robotActions = useRobotActions()
       const portfolioActions = usePortfolioActions()
@@ -33,6 +47,7 @@ export const useRobotsStore = defineStore('robots', {
         await robotActions.updateSecurities(newRobot)
         await portfolioActions.updatePortfolio(newRobot)
         await algorithmsStore.getAlgorithms(newRobot)
+        await this.updateRobotStatus(newRobot)
         this.robots.push(newRobot)
       }
     },

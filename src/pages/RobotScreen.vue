@@ -6,7 +6,12 @@
       <q-breadcrumbs-el :label="robot.name" icon="precision_manufacturing" class="text-primary" />
     </q-breadcrumbs>
     <div class="row justify-between">
-      <h4><RobotAvatar :name="robot.name" /> Robot <code>{{robot.name}}</code> </h4>
+      <h4>
+        <RobotAvatar :name="robot.name" />
+        Robot
+        <code>{{robot.name}}</code>
+        <RobotStatus :robot="robot" />
+      </h4>
     </div>
     <q-btn-group>
       <RobotLogsModal :robot="robot" />
@@ -35,11 +40,13 @@ import {Algorithm, CurrencyBalance, PortfolioPosition} from "@badlabs/trade-bot_
 import {useAlgorithmsStore} from "stores/algorithms.store";
 import {usePortfolioActions} from "stores/portfolio.actions";
 import {robotFromRoute} from "src/mixins";
-import RobotAvatar from "components/RobotAvatar.vue";
+import RobotAvatar from "components/robot/RobotAvatar.vue";
+import RobotStatus from "components/robot/RobotStatus.vue";
 
 export default defineComponent({
   name: "RobotScreen",
   components: {
+    RobotStatus,
     RobotAvatar,
     PortfolioStatistics, AlgosList, RobotLogsModal
   },

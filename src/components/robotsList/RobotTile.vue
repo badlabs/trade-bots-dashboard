@@ -3,7 +3,7 @@
     <q-card-section>
       <div class="row justify-between">
         <div class="text-h6"><RobotAvatar :name="robot.name" /> <code>{{robot.name}}</code></div>
-        <q-chip dense dark color="blue">active</q-chip>
+        <RobotStatus :robot="robot" />
       </div>
 
 <!--      <div>-->
@@ -37,12 +37,13 @@ import {mapActions} from "pinia";
 import { useRobotActions } from "stores/robot.actions";
 import { usePortfolioActions } from "stores/portfolio.actions";
 import { PortfolioPosition } from "@badlabs/trade-bot__db-types";
-import RobotAvatar from "components/RobotAvatar.vue";
+import RobotAvatar from "components/robot/RobotAvatar.vue";
 import RobotLogs from "components/RobotLogs.vue";
+import RobotStatus from "components/robot/RobotStatus.vue";
 
 export default defineComponent({
   name: "RobotTile",
-  components: {RobotLogs, RobotAvatar},
+  components: {RobotLogs, RobotAvatar, RobotStatus},
   props: {
     robot: {
       type: TradeBot,
