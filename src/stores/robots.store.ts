@@ -43,12 +43,16 @@ export const useRobotsStore = defineStore('robots', {
       const portfolioActions = usePortfolioActions()
       const algorithmsStore = useAlgorithmsStore()
       if (!this.checkExistingRobot(robotOptions)) {
-        const newRobot = new TradeBot(robotOptions)
-        await robotActions.updateSecurities(newRobot)
-        await portfolioActions.updatePortfolio(newRobot)
-        await algorithmsStore.getAlgorithms(newRobot)
-        await this.updateRobotStatus(newRobot)
-        this.robots.push(newRobot)
+        this.robots.push(new TradeBot(robotOptions))
+        const newRobot = this.robots.find(r => r.url === new TradeBot(robotOptions).url)
+        if (newRobot) {
+          await robotActions.updateSecurities(newRobot)
+          await portfolioActions.updatePortfolio(newRobot)
+          await algorithmsStore.getAlgorithms(newRobot)
+          await this.updateRobotStatus(newRobot)
+        }
+
+
       }
     },
     checkExistingRobot(robotOptions: RobotInitOptions){

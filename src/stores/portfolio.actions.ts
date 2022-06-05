@@ -78,7 +78,12 @@ export const usePortfolioActions = defineStore('portfolioActions', {
       const robots: TradeBot[] = robotsStore.robots
       const allPortfoliosPromise: Promise<PortfolioPosition[]>[] = robots
         .map(async (robot) => {
-          return await this.getPortfolio(robot)
+          try {
+            return await this.getPortfolio(robot)
+          }
+          catch (e) {
+            return []
+          }
         })
       const allPortfolios: PortfolioPosition[][] = await Promise.all(allPortfoliosPromise)
       const unitedPortfolio: PortfolioPosition[] = allPortfolios
@@ -97,7 +102,12 @@ export const usePortfolioActions = defineStore('portfolioActions', {
       const robots: TradeBot[] = robotsStore.robots
       const allBalancesPromise: Promise<CurrencyBalance[]>[] = robots
         .map(async (robot) => {
-          return await this.getCurrenciesBalance(robot)
+          try {
+            return await this.getCurrenciesBalance(robot)
+          }
+          catch (e) {
+            return []
+          }
         })
       const allBalances: CurrencyBalance[][] = await Promise.all(allBalancesPromise)
       const unitedBalances: CurrencyBalance[] = allBalances

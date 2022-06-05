@@ -34,7 +34,7 @@
             </q-item>
         </q-list>
       <div>
-        <q-btn color="primary" href="#/robots" label="More" style="font-size: 12px"/>
+        <q-btn color="primary" to="/robots" label="More" style="font-size: 12px"/>
       </div>
     </div>
 
@@ -51,7 +51,6 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import {useRobotsStore} from "stores/robots.store";
-import {usePortfolioActions} from "stores/portfolio.actions";
 import {mapState, mapActions} from "pinia";
 import PortfolioView from "components/portfolio/PortfolioView.vue";
 import {CurrencyBalance, PortfolioPosition} from "@badlabs/trade-bot__db-types";
@@ -66,8 +65,6 @@ export default defineComponent({
   name: "MainScreen",
   data(){
     return{
-      algos: [1,2,3,4,5],
-      securities: [1,2,3,4,5],
       showSpinner: false,
       unitedPortfolio: [] as PortfolioPosition[],
       unitedBalance: [] as CurrencyBalance[]
