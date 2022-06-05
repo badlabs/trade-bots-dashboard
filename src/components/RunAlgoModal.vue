@@ -3,7 +3,8 @@
     <q-card style="min-width: 400px">
       <q-bar class="bg-primary text-white">
         <div class="q-ma-md">
-          Run algorithm <code>{{algorithm.name}}</code> for <code>{{robot.name}}</code>
+          Run algorithm <code>{{algorithm.name}}</code>
+          <span v-if="robot">for <code>{{robot.name}}</code></span>
         </div>
       </q-bar>
       <q-form @submit.prevent="startAlgo">
@@ -16,17 +17,19 @@
           </div>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn color="primary"
-                 type="submit"
-                 :loading="loading">
-            Start
+          <q-btn color="primary" type="submit" :loading="loading">
+            <q-icon name="play_arrow" />
+            Start {{ !robot ? `for ${robots.length} robots` : '' }}
           </q-btn>
           <q-btn color="red" @click="show = !show" >Cancel</q-btn>
         </q-card-actions>
       </q-form>
     </q-card>
   </q-dialog>
-  <q-btn @click="show = !show" color="primary" >Run</q-btn>
+  <q-btn @click="show = !show" color="primary" >
+    <q-icon name="play_arrow" />
+    Run {{ !robot ? `for ${robots.length} robots` : '' }}
+  </q-btn>
 </template>
 
 <script lang="ts">
@@ -47,7 +50,7 @@ export default defineComponent({
     },
     robot: {
       type: TradeBot,
-      required: true
+      required: false
     }
   },
   components: {
@@ -61,15 +64,23 @@ export default defineComponent({
       fields: [] as { name: string, type: AlgoInputTypeName, value: AlgoInputType }[]
     }
   },
+  computed: {
+    robots() {
+      return this.getRobotsByAlgorithm(this.algorithm.name)
+        .filter(r => r.status === 'Active')
+    }
+  },
   methods: {
-    ...mapActions(useAlgorithmsStore, ["runAlgorithm", "getAlgorithmInputsTypes"]),
+    ...mapActions(useAlgorithmsStore, ["runAlgorithm", "getAlgorithmInputsTypes", "getRobotsByAlgorithm", "runAlgorithmForActiveRobots"]),
     async startAlgo(){
       this.loading = true
       const body: any = {}
       this.fields.forEach(f => {
         body[f.name] = f.value
       })
-      await this.runAlgorithm(this.robot, this.algorithm.name, body)
+      if (this.robot)
+        await this.runAlgorithm(this.robot, this.algorithm.name, body)
+      else await this.runAlgorithmForActiveRobots(this.algorithm.name, body)
       this.loading = false
       this.show = false
     }

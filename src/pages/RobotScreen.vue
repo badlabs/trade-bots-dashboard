@@ -35,7 +35,7 @@ import {mapActions, mapState} from "pinia";
 import {TradeBot} from "src/models";
 import PortfolioStatistics from "components/portfolio/PortfolioView.vue";
 import RobotLogsModal from "components/RobotLogsModal.vue";
-import AlgosList from "components/algorithms/AlgosList.vue";
+import AlgosList from "components/algorithms/AlgorithmsList.vue";
 import {Algorithm, CurrencyBalance, PortfolioPosition} from "@badlabs/trade-bot__db-types";
 import {useAlgorithmsStore} from "stores/algorithms.store";
 import {usePortfolioActions} from "stores/portfolio.actions";

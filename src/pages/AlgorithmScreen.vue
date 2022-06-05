@@ -5,7 +5,7 @@
       <q-breadcrumbs-el label="Robots" icon="widgets" to="/robots" />
       <q-breadcrumbs-el :label="robot.name" icon="precision_manufacturing" :to="`/robots/${robot.name}`" />
       <q-breadcrumbs-el label="Algorithms" icon="format_list_numbered" />
-      <q-breadcrumbs-el :label="algorithm.name" icon="task" class="text-primary" />
+      <q-breadcrumbs-el :label="algorithm.name" icon="playlist_play" class="text-primary" />
     </q-breadcrumbs>
     <div class="row justify-between">
       <h4>Robot <code>{{robot.name}}</code> : Algorithm <code>{{algorithm.name}}</code></h4>

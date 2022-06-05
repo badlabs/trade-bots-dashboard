@@ -42,26 +42,7 @@
     </PortfolioView>
 
     <!-- Algorithm -->
-    <div v-if="robots.length" class="q-pa-md q-my-lg q-mx-auto" style="max-width: 800px; background: lightblue; border-radius: 5px">
-      <q-list
-        style="max-height: 300px; overflow-y: auto"
-        separator>
-        <q-item
-          v-for="(algo, index) in algos" :key="index"
-          dense>
-          <q-item-section class="q-pa-sm q-my-sm">
-            <q-card class="my-card" style="max-height: 300px;">
-              <q-card-section>
-                Algorithm 1234
-              </q-card-section>
-              <div class="q-pa-md">
-
-              </div>
-            </q-card>
-          </q-item-section>
-        </q-item>
-      </q-list>
-    </div>
+    <AlgorithmsList v-if="robots.length" />
   </div>
 </template>
 
@@ -75,6 +56,7 @@ import {CurrencyBalance, PortfolioPosition} from "@badlabs/trade-bot__db-types";
 import RobotAvatar from "components/robot/RobotAvatar.vue";
 import ConnectRobotModal from "components/ConnectRobotModal.vue";
 import RobotStatus from "components/robot/RobotStatus.vue";
+import AlgorithmsList from "components/algorithms/AlgorithmsList.vue";
 
 export default defineComponent({
   name: "MainScreen",
@@ -88,6 +70,7 @@ export default defineComponent({
     }
   },
   components: {
+    AlgorithmsList,
     RobotAvatar,
     PortfolioView,
     ConnectRobotModal,

@@ -20,21 +20,28 @@ import {defineComponent} from "vue";
 import {AlgoInput, TradeBot} from "src/models";
 import {Algorithm} from "@badlabs/trade-bot__db-types";
 import AlgorithmItem from "components/algorithms/AlgorithmItem.vue";
-import {mapActions} from "pinia";
+import {mapActions, mapState} from "pinia";
 import {useAlgorithmsStore} from "stores/algorithms.store";
 
 export default defineComponent({
-  name: "AlgosList",
+  name: "AlgorithmsList",
   props: {
     robot: {
       type: TradeBot,
-      required: true
+      required: false
     }
   },
   data(){
     return {
-      algorithms: [] as Algorithm[],
+      localAlgorithms: [] as Algorithm[],
       loading: false
+    }
+  },
+  computed:{
+    ...mapState(useAlgorithmsStore, { globalAlgorithms: "algorithms" }),
+    algorithms(): Algorithm[]{
+      if (this.robot) return this.localAlgorithms
+      return this.globalAlgorithms.map(a => a.algorithm)
     }
   },
   methods: {
@@ -42,10 +49,11 @@ export default defineComponent({
     async fetch(){
       this.loading = true
       try {
-        this.algorithms = await this.getAlgorithms(this.robot)
+        if (this.robot)
+          this.localAlgorithms = await this.getAlgorithms(this.robot)
       }
       catch (e) {
-        this.algorithms = []
+        this.localAlgorithms = []
       }
       this.loading = false
     }
@@ -54,7 +62,7 @@ export default defineComponent({
     AlgorithmItem
   },
   async mounted() {
-    this.fetch()
+    await this.fetch()
   },
   watch: {
     robot(){

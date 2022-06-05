@@ -8,6 +8,7 @@ import {
   PortfolioPosition,
   Security
 } from "@badlabs/trade-bot__db-types";
+import {robotFromRoute} from "src/mixins";
 
 export const useAlgorithmsStore = defineStore('algorithmsStore', {
   state: () => ({
@@ -25,12 +26,16 @@ export const useAlgorithmsStore = defineStore('algorithmsStore', {
   actions: {
     addAlgorithm(robot: TradeBot, algorithm: Algorithm) {
       if (this.algorithms.some(a => a.algorithm.name === algorithm.name)){
-        this.algorithms
-          .find(a => a.algorithm.name === algorithm.name)
-          ?.robots.push(robot)
+        const algo = this.algorithms.find(a => a.algorithm.name === algorithm.name)
+        if(!algo) return
+        if(!algo.robots.some(r => r.name === robot.name))
+          algo.robots.push(robot)
         return
       }
       this.algorithms.push({ algorithm, robots: [robot] })
+    },
+    getRobotsByAlgorithm(algorithmName: string): TradeBot[]{
+      return this.algorithms.find(algo => algo.algorithm.name === algorithmName)?.robots || []
     },
     async getAlgorithms(tradeBot: TradeBot): Promise<Algorithm[]> {
       const { data: algos }: { data: Algorithm[] } =
@@ -49,6 +54,25 @@ export const useAlgorithmsStore = defineStore('algorithmsStore', {
       const { data: algoRun }: { data: AlgorithmRun } =
         await axios.post(`${tradeBot.url}/api/algos/${algorithmName}`, inputs, {headers: tradeBot.authHeader})
       return algoRun
+    },
+    async runAlgorithmForActiveRobots(algorithmName: string, inputs: any): Promise<{ success: TradeBot[], failure: TradeBot[] }>{
+      const activeRobots = this.getRobotsByAlgorithm(algorithmName).filter(r => r.status === 'Active')
+      const promises = activeRobots.map(async (robot) => {
+        try {
+          await this.runAlgorithm(robot, algorithmName, inputs)
+          return { robot, success: true }
+        }
+        catch (e) {
+          return { robot, success: false }
+        }
+      })
+      const successes = await Promise.all(promises)
+      const results: { success: TradeBot[], failure: TradeBot[] } = { success: [], failure: [] }
+      successes.forEach(s => {
+        if (s.success) results.success.push(s.robot)
+        else results.failure.push(s.robot)
+      })
+      return results
     },
     async stopAlgorithm(tradeBot: TradeBot, algorithmName: string, runId: number): Promise<AlgorithmRun>{
       const { data: algoRun }: { data: AlgorithmRun } =

@@ -8,6 +8,17 @@
           <p v-for="(line, index) in algorithm.description.split('\n')" :key="index">
             {{line}}
           </p>
+          <div v-if="!robot">
+            Active robots:
+            <router-link v-for="robot in activeRobots" :key="robot.name"
+                         class="no-text-decoration"
+                         :to="`/robots/${robot.name}`">
+              <q-chip  square dark color="primary" >
+                <RobotAvatar :name="robot.name" /> {{robot.name}}
+              </q-chip>
+            </router-link>
+
+          </div>
         </q-card-section>
         <q-list separator class="bg-white">
           <q-item v-for="( type, name ) in inputs" :key="name">
@@ -20,7 +31,8 @@
           </q-item>
         </q-list>
         <q-card-actions align="right">
-          <q-btn color="primary" :to="`/robots/${robot.name}/algorithms/${algorithm.name}`" label="Runs" />
+          <q-btn v-if="robot" color="primary" :to="`/robots/${robot.name}/algorithms/${algorithm.name}`"
+                 label="Runs" icon="playlist_play" />
           <RunAlgoModal :robot="robot" :algorithm="algorithm" />
         </q-card-actions>
       </q-card>
@@ -35,6 +47,7 @@ import {AlgoInput, TradeBot} from "src/models";
 import RunAlgoModal from "components/RunAlgoModal.vue";
 import {mapActions} from "pinia";
 import {useAlgorithmsStore} from "stores/algorithms.store";
+import RobotAvatar from "components/robot/RobotAvatar.vue";
 
 export default defineComponent({
   name: "AlgorithmItem",
@@ -45,20 +58,26 @@ export default defineComponent({
     },
     robot: {
       type: TradeBot,
-      required: true
+      required: false
     }
   },
-  components: { RunAlgoModal },
+  components: {RobotAvatar, RunAlgoModal },
   computed: {
     inputs(): AlgoInput {
       return this.getAlgorithmInputsTypes(this.algorithm)
+    },
+    activeRobots(): TradeBot[] {
+      return this.getRobotsByAlgorithm(this.algorithm.name).filter(r => r.status === 'Active')
     }
   },
   methods: {
-    ...mapActions(useAlgorithmsStore, ["getAlgorithmInputsTypes"])
+    ...mapActions(useAlgorithmsStore, ["getAlgorithmInputsTypes", "getRobotsByAlgorithm"])
   }
 })
 </script>
 
 <style scoped>
+.no-text-decoration{
+  text-decoration: none;
+}
 </style>
