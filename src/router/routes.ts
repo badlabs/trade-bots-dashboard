@@ -10,8 +10,7 @@ const routes: RouteRecordRaw[] = [
       { path: 'robots/:robot', component: () => import('pages/RobotScreen.vue')},
       { path: 'robots/:robot/orders', component: () => import('pages/OrdersScreen.vue')},
       { path: 'robots/:robot/operations', component: () => import('pages/OperationsScreen.vue')},
-      { path: 'robots/:robot/algorithms/:algorithm', component: () => import('pages/AlgorithmScreen.vue')},
-      { path: 'algorithms', component: () => import('pages/AlgorithmsScreen.vue')}
+      { path: 'robots/:robot/algorithms/:algorithm', component: () => import('pages/AlgorithmScreen.vue')}
     ],
   },
 

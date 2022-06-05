@@ -7,6 +7,7 @@
     <q-btn-group spread>
       <q-btn icon="widgets" color="primary" to="/robots" label="Robots"/>
       <ConnectRobotModal v-if="!robots.length" @addRobot="showSpinner = true" @robotAdded="showSpinner = false" />
+      <ImportRobotsModal v-if="!robots.length" @addRobots="showSpinner = true" @robotsAdded="showSpinner = false" />
       <RobotLogsModal />
 <!--      <q-btn icon="format_list_numbered" color="primary" to="/algorithms" label="Algorithms"/>-->
     </q-btn-group>
@@ -59,6 +60,7 @@ import ConnectRobotModal from "components/ConnectRobotModal.vue";
 import RobotStatus from "components/robot/RobotStatus.vue";
 import AlgorithmsList from "components/algorithms/AlgorithmsList.vue";
 import RobotLogsModal from "components/RobotLogsModal.vue";
+import ImportRobotsModal from "components/ImportRobotsModal.vue";
 
 export default defineComponent({
   name: "MainScreen",
@@ -72,6 +74,7 @@ export default defineComponent({
     }
   },
   components: {
+    ImportRobotsModal,
     RobotLogsModal,
     AlgorithmsList,
     RobotAvatar,

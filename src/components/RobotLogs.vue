@@ -58,7 +58,6 @@ export default defineComponent({
     }
   },
   created(){
-    console.log('created')
     if (this.robot){
       const wsUrl = `${this.robot.url}`
       this.connection = io(wsUrl, {  extraHeaders: this.robot.authHeader })
@@ -114,7 +113,6 @@ export default defineComponent({
 
   },
   beforeUnmount() {
-    console.log('beforeDestroy')
     this.connection?.close()
     this.connections.forEach(c => c.close())
   }

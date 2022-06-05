@@ -21,6 +21,7 @@
       <q-btn :to="`/robots/${robot.name}/operations`" color="primary" >
         <q-icon name="pending_actions" /> Operations
       </q-btn>
+      <q-btn @click="exportRobot(this.robot)" color="primary" icon="file_upload" label="Export" />
     </q-btn-group>
     <PortfolioStatistics :robot="robot" />
     <AlgosList :robot="robot" />
@@ -39,7 +40,7 @@ import AlgosList from "components/algorithms/AlgorithmsList.vue";
 import {Algorithm, CurrencyBalance, PortfolioPosition} from "@badlabs/trade-bot__db-types";
 import {useAlgorithmsStore} from "stores/algorithms.store";
 import {usePortfolioActions} from "stores/portfolio.actions";
-import {robotFromRoute} from "src/mixins";
+import {exportRobot, robotFromRoute} from "src/mixins";
 import RobotAvatar from "components/robot/RobotAvatar.vue";
 import RobotStatus from "components/robot/RobotStatus.vue";
 
@@ -55,7 +56,7 @@ export default defineComponent({
 
     }
   },
-  mixins: [ robotFromRoute ],
+  mixins: [ robotFromRoute, exportRobot ],
   methods: {
     ...mapActions(useAlgorithmsStore, ['getAlgorithms']),
     async updateRobotData(){

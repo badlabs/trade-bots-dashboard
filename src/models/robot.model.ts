@@ -10,7 +10,7 @@ export class TradeBot {
   readonly port: number
   readonly token?: string
 
-  readonly name: string
+  name: string
   status: 'Disconnected' | 'Active' | 'Not Authorized' = 'Disconnected'
 
   constructor({ name, host, port, token }: RobotInitOptions){
@@ -30,5 +30,14 @@ export class TradeBot {
 
   get authHeader(){
     return { Authorization: `Bearer ${this.token}` }
+  }
+
+  toExport(): RobotInitOptions{
+    return {
+      name: this.name,
+      host: this.host,
+      port: this.port,
+      token: this.token
+    }
   }
 }
