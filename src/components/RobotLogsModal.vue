@@ -5,7 +5,7 @@
             transition-hide="slide-down" >
     <q-card :style="{ maxHeight: maximizedToggle ? undefined : '50vh' }"  class="bg-black text-white">
       <q-bar class="bg-primary">
-        <q-icon name="notes" /> Logs {{robot.name}}
+        <q-icon name="notes" /> Logs {{robot ? robot.name : ''}}
         <q-space />
 
         <q-btn dense flat icon="minimize" @click="maximizedToggle = false" :disable="!maximizedToggle">
@@ -18,11 +18,13 @@
           <q-tooltip class="bg-white text-primary">Close</q-tooltip>
         </q-btn>
       </q-bar>
-      <RobotLogs :robot="robot" />
+      <div :style="{maxHeight: maximizedToggle ? 'calc(100vh - 32px)' : 'calc(50vh - 32px)'} " style="overflow-y: auto">
+        <RobotLogs :robot="robot" />
+      </div>
     </q-card>
   </q-dialog>
   <q-btn @click="show = !show" color="primary" >
-    <q-icon name="notes" /> Logs
+    <q-icon name="notes" /> {{robot ? '' : 'United'}} Logs
   </q-btn>
 </template>
 
@@ -38,7 +40,7 @@ export default defineComponent({
   props: {
     robot: {
       type: TradeBot,
-      required: true
+      required: false
     }
   },
   data(){
