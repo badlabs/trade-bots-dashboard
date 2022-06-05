@@ -9,7 +9,7 @@
       <q-form @submit.prevent="startAlgo">
         <q-card-section>
           <div v-for="input in fields" :key="input.name">
-            <q-input v-if="input.type === 'number'" v-model="input.value" type="number" :label="input.name" />
+            <q-input v-if="input.type === 'number'" v-model.number="input.value" type="number" :label="input.name" />
             <OrderOptionsInput v-else-if="input.type === 'OrderDetails'" v-model="input.value" :label="input.name" />
             <q-input v-else-if="input.type === 'string'" v-model="input.value" :label="input.name" />
             <DateTimeInput v-else-if="input.type === 'Date'" v-model="input.value" :label="input.name" />

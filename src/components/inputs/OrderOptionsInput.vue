@@ -5,8 +5,8 @@
       <div>
         <q-input v-model="currentValue.ticker" label="Ticker" @input="input" />
         <q-select v-model="currentValue.operation" :options="operationTypes" label="Operation" @input="input" />
-        <q-input v-model="currentValue.price" type="number" label="Price" @input="input" />
-        <q-input v-model="currentValue.lots" type="number" label="Lots" @input="input" />
+        <q-input v-model.number="currentValue.price" type="number" label="Price" @input="input" />
+        <q-input v-model.number="currentValue.lots" type="number" label="Lots" @input="input" />
       </div>
     </q-card-section>
   </q-card>
