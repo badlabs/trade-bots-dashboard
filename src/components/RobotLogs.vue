@@ -1,7 +1,9 @@
 <template>
   <div style="overflow-y: auto">
     <pre class="bg-black text-white q-pa-md"
-         :style="{whiteSpace: singleLine ? 'pre-wrap' : undefined}">{{ singleLine ? lastLine : logs}}</pre>
+         style="overflow-wrap: break-word; max-width: 100%"
+         :style="{whiteSpace: singleLine ? 'pre-wrap' : 'pre-line'}"
+         v-html="singleLine ? lastLine : logs"/>
   </div>
 </template>
 
@@ -28,6 +30,22 @@ export default defineComponent({
       logs: ''
     }
   },
+  methods: {
+    jsonReplacer(str: string): string{
+      // TODO: Finish JSON colorizer
+      const keyValueRegexp = /("[\w_]*"):(\d+\.?\d*)?(".*")?([]),?/gi
+      return str
+    },
+    highlightSyntax(logsLine: string): string {
+      const dateTimeRegexp = /^(\d{2}\.\d{2}\.\d{4},\s\d{2}:\d{2}:\d{2})/gm
+      const noteRegexp = /\s(\[[\w_\-]*:\d*])\s/gmi
+      const jsonRegexp = /\{(.*)\}/mg;
+      return logsLine
+        .replace(dateTimeRegexp, '<i class="text-warning" >$1</i>')
+        .replace(noteRegexp, '<span class="text-accent" > $1 </span>')
+        .replace(jsonRegexp, '<span class="text-secondary" >{$1}</span>')
+    }
+  },
   computed:{
     lastLine(){
       return this.logs.split('\n').slice(-2)[0]
@@ -38,7 +56,7 @@ export default defineComponent({
     this.connection = io(wsUrl)
 
     this.connection.on('log', (event) => {
-      this.logs += event + '\n'
+      this.logs += this.highlightSyntax(event) + '\n'
     })
 
     this.connection.on('disconnect', (event) => {

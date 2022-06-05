@@ -5,9 +5,9 @@
       <q-breadcrumbs-el  label="Main" icon="home" class="text-primary" />
     </q-breadcrumbs>
     <q-btn-group spread>
-      <q-btn icon="widgets" color="accent" to="/robots" label="Robots"/>
+      <q-btn icon="widgets" color="primary" to="/robots" label="Robots"/>
       <ConnectRobotModal v-if="!robots.length" @addRobot="showSpinner = true" @robotAdded="showSpinner = false" />
-      <q-btn icon="format_list_numbered" color="accent" to="/algorithms" label="Algorithms"/>
+      <q-btn icon="format_list_numbered" color="primary" to="/algorithms" label="Algorithms"/>
     </q-btn-group>
     <div v-if="showSpinner && !robots.length " class="row justify-center q-pa-lg ">
       <q-spinner-ball size="200px" color="primary" />

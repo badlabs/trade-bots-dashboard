@@ -20,7 +20,7 @@
       </q-form>
     </q-card>
   </q-dialog>
-  <q-btn @click="show = !show" color="primary" icon="add" label="Connect New Robot" />
+  <q-btn @click="show = !show" color="accent" icon="add" label="Connect New Robot" />
 </template>
 
 <script lang="ts">

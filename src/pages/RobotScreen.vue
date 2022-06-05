@@ -13,6 +13,9 @@
       <q-btn :to="`/robots/${robot.name}/orders`" color="primary" >
         <q-icon name="list_alt" /> Orders
       </q-btn>
+      <q-btn :to="`/robots/${robot.name}/operations`" color="primary" >
+        <q-icon name="pending_actions" /> Operations
+      </q-btn>
     </q-btn-group>
     <PortfolioStatistics :robot="robot" />
     <AlgosList :robot="robot" />

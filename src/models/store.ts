@@ -14,3 +14,10 @@ export type GetOrdersOptions = {
   operation?: OperationType,
   runId?: number
 }
+
+export type GetOperationsOptions = {
+  from?: Date,
+  to?: Date,
+  securityTicker?: string,
+  operation?: string
+}

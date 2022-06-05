@@ -12,7 +12,7 @@
       <q-item-label caption v-if="!!robot"
                     :class="`text-${growth ? 'green' : 'red'}`"
                     style="font-size: 14px">
-        {{growth ? '↑' : '↓'}}{{buyPrice.price}} <CurrencySign :ticker="security.currency_ticker" /> ({{diffRelative}} %)
+        {{growth ? '↑' : '↓'}}{{Math.round(buyPrice.price*100)/100}} <CurrencySign :ticker="security.currency_ticker" /> ({{diffRelative}} %)
       </q-item-label>
     </q-item-section>
     <q-inner-loading :showing="loading">
@@ -70,8 +70,11 @@ export default defineComponent({
   },
   async created(){
     this.loading = true
-    if (this.robot)
-      this.buyPrice = await this.getAverageBuyPrice( this.robot, this.portfolioPosition.security_ticker )
+    try {
+      if (this.robot)
+        this.buyPrice = await this.getAverageBuyPrice( this.robot, this.portfolioPosition.security_ticker )
+    }
+    catch (e) {}
     this.loading = false
   }
 })
