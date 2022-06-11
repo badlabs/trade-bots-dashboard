@@ -1,0 +1,6 @@
+.idea
+.github
+.vscode
+.quasar
+node_modules
+Dockerfile
